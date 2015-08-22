@@ -31,4 +31,5 @@ def configXml = '''<?xml version='1.0' encoding='UTF-8'?>
 </project>'''
 
 def xmlStream = new ByteArrayInputStream( configXml.getBytes() )
-Jenkins.instance.createProjectFromXML(jobName, xmlStream)
+def seedJob = Jenkins.instance.createProjectFromXML(jobName, xmlStream)
+seedJob.scheduleBuild(0, null)
