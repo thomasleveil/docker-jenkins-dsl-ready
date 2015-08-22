@@ -1,23 +1,36 @@
 Jenkins DSL ready
 =================
 
-Goal: **automate** your Jenkins installation. Get **Jenkins and its jobs** ready with one docker command and a click on a build button!
+Goal: **automate** your Jenkins installation. Get **Jenkins and its jobs** ready with one docker command!
+
+This Jenkins image is based on top of the [offical Jenkins image][official-jenkins] and as such provides all its features.
+Additionnaly, it comes with the **[Job DSL plugin][job-dsl] ready to use**.
+
 
 tl;dr
 -----
 
     docker run -d -p 8080:8080 -name jenkins tomdesinto/jenkins-dsl-ready
 
-----
 
-This Jenkins image is based on top of the [offical Jenkins image][official-jenkins] and as such provides all its features.
-Additionnaly, it comes with the **[Job DSL plugin][job-dsl] ready to use**.
+What does it do?
+----------------
+
+When you start the container the following happens:
+
+1. All elements (plugins, jobs, config, etc) from `/usr/share/jenkins/ref/` which are not yet in `$JENKINS_HOME` are copied over
+2. Jenkins starts
+3. all Groovy scripts found in [$JENKINS_HOME/init.groovy.d/][init.groovy.d] are run, which includes our [create-seed-job.groovy script][create-seed-job.groovy]
+4. The _SeedJob_ is eventually created and a run is scheduled if it was missing
+5. The _SeedJob_, if run, creates additional jobs found in its workspace `dsl/` directory
+
 
 Included plugins
 ----------------
 
 - [Job DSL][job-dsl]
 - [Git][git]
+- [Groovy PostBuild][groovy-postbuild]
 - [AnsiColor][ansicolor]
 - [Rebluid][rebuild]
 - [Sidebar-Link][sidebar-link]
@@ -26,15 +39,11 @@ Included plugins
 Usage
 -----
 
-1. start the docker container
+    docker run -d -p 8080:8080 -name jenkins tomdesinto/jenkins-dsl-ready
 
-        docker run -d -p 8080:8080 -name jenkins tomdesinto/jenkins-dsl-ready
+Once the _SeedJob_ is done, you will see the new jobs that were defined by the DSL scripts found in the _SeedJob_ workspace _dsl_ directory. 
 
-2. Wait for Jenkins to be up
-3. Run the _SeedJob_ job
-
-Once the _SeedJob_ is done, you will see a new job. Now you can edit the _SeedJob_ and make it fetch your DSL scripts from a SVN/git repository and 
-make it create your jobs.
+Now you can edit the _SeedJob_ and make it fetch your DSL scripts from a SVN/git repository and make it create your other jobs.
 
 
 DSL syntax
@@ -52,8 +61,6 @@ You can add DSL scripts to the [`dsl/`][dsl-dir] directory. When you build the
 docker image, those scripts will be stored and deployed to your Jenkins HOME 
 directory when your container will be run.
 
-In Jenkins, the _SeedJob_ will execute all those DSL files in order to create
-new jobs.
 
 
 [official-jenkins]: https://github.com/jenkinsci/docker/blob/master/README.md
@@ -65,3 +72,6 @@ new jobs.
 [git]: https://wiki.jenkins-ci.org/display/JENKINS/Git+Plugin
 [sidebar-link]: https://wiki.jenkins-ci.org/display/JENKINS/Sidebar-Link+Plugin
 [dsl-dir]: https://github.com/thomasleveil/docker-jenkins-dsl-ready/tree/master/dsl
+[groovy-postbuild]: https://wiki.jenkins-ci.org/display/JENKINS/Groovy+Postbuild+Plugin#GroovyPostbuildPlugin-Exampleusages
+[init.groovy.d]: https://wiki.jenkins-ci.org/pages/viewpage.action?pageId=70877249
+[create-seed-job.groovy]: https://github.com/thomasleveil/docker-jenkins-dsl-ready/blob/master/create-seed-job.groovy
