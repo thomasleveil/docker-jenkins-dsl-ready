@@ -147,3 +147,4 @@ directory when your container will be run.
 [github-dind]: https://github.com/jpetazzo/dind
 [dind-troubleshooting]: https://github.com/jpetazzo/dind#it-didnt-work
 [docker-rm]: https://docs.docker.com/reference/commandline/rm/
+[dind]: https://hub.docker.com/r/jpetazzo/dind/
