@@ -1,6 +1,8 @@
 Jenkins DSL ready
 =================
 
+[![Join the chat at https://gitter.im/thomasleveil/docker-jenkins-dsl-ready](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/thomasleveil/docker-jenkins-dsl-ready?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 Goal: **automate** your Jenkins installation. Get **Jenkins and its jobs** ready with one docker command!
 
 This Jenkins image is based on top of the [offical Jenkins image][official-jenkins] and as such provides all its features.
