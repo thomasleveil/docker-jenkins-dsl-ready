@@ -1,0 +1,14 @@
+sudo: required
+
+language: python
+python: 2.7
+
+services:
+  - docker
+
+before_install:
+- docker pull jenkins
+
+script:
+- python -m doctest build/*.py
+- docker build -t tomdesinto/jenkins-dsl-ready .
