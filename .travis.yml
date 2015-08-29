@@ -4,11 +4,15 @@ language: python
 python: 2.7
 
 services:
-  - docker
-
-before_install:
-- docker pull jenkins
+- docker
 
 script:
 - python -m doctest build/*.py
 - docker build -t tomdesinto/jenkins-dsl-ready .
+
+after_success:
+- >
+  [ "$TRAVIS_BRANCH" == "master" ]
+  && curl -X POST -H "Content-Type: application/json"
+  --data '{"docker_tag_name": "latest"}'
+  https://registry.hub.docker.com/u/tomdesinto/jenkins-dsl-ready/trigger/$DOCKER_HUB_TOKEN
