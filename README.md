@@ -2,6 +2,7 @@ Jenkins DSL ready
 =================
 
 [![](https://badge.imagelayers.io/tomdesinto/jenkins-dsl-ready:latest.svg)](https://imagelayers.io/?images=tomdesinto/jenkins-dsl-ready:latest 'Get your own badge on imagelayers.io')
+[![Build Status](https://travis-ci.org/thomasleveil/docker-jenkins-dsl-ready.svg?branch=master)](https://travis-ci.org/thomasleveil/docker-jenkins-dsl-ready)
 [![Join the chat at https://gitter.im/thomasleveil/docker-jenkins-dsl-ready](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/thomasleveil/docker-jenkins-dsl-ready?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 Goal: **automate** your Jenkins installation. Get **Jenkins and its jobs** ready with one docker command!
