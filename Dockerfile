@@ -1,26 +1,6 @@
 FROM jenkins
 
-ENV PLUGINS_DL_URL http://updates.jenkins-ci.org/download/plugins
-
-# Install plugins
-ADD ${PLUGINS_DL_URL}/job-dsl/latest/job-dsl.hpi                               /usr/share/jenkins/ref/plugins/
-ADD ${PLUGINS_DL_URL}/git/latest/git.hpi                                       /usr/share/jenkins/ref/plugins/
-ADD ${PLUGINS_DL_URL}/git-client/latest/git-client.hpi                         /usr/share/jenkins/ref/plugins/
-ADD ${PLUGINS_DL_URL}/scm-api/latest/scm-api.hpi                               /usr/share/jenkins/ref/plugins/
-ADD ${PLUGINS_DL_URL}/parameterized-trigger/latest/parameterized-trigger.hpi   /usr/share/jenkins/ref/plugins/
-ADD ${PLUGINS_DL_URL}/ansicolor/latest/ansicolor.hpi                           /usr/share/jenkins/ref/plugins/
-ADD ${PLUGINS_DL_URL}/rebuild/latest/rebuild.hpi                               /usr/share/jenkins/ref/plugins/
-ADD ${PLUGINS_DL_URL}/sidebar-link/latest/sidebar-link.hpi                     /usr/share/jenkins/ref/plugins/
-ADD ${PLUGINS_DL_URL}/groovy-postbuild/latest/groovy-postbuild.hpi             /usr/share/jenkins/ref/plugins/
-
-# Groovy script to create the "SeedJob" (the standard way, not with DSL)
-COPY create-seed-job.groovy /usr/share/jenkins/ref/init.groovy.d/
-
-# The place where to put the DSL files for the Seed Job to run
-RUN mkdir -p /usr/share/jenkins/ref/jobs/SeedJob/workspace/dsl/
-
 USER root
-RUN chown jenkins: /usr/share/jenkins/ -R
 
 # Install docker, so docker commands can be used in jobs
 RUN curl -sSL https://get.docker.com/ubuntu | sh \
@@ -32,10 +12,38 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/* \
     && echo "jenkins ALL=NOPASSWD: ALL" >> /etc/sudoers
 
+# a few helper scripts
+RUN mkdir /opt/bin
+COPY build/*.py /opt/bin/
+RUN chmod +x /opt/bin/*
+
+# Groovy script to create the "SeedJob" (the standard way, not with DSL)
+COPY build/create-seed-job.groovy /usr/share/jenkins/ref/init.groovy.d/
+
+# The place where to put the DSL files for the Seed Job to run
+RUN mkdir -p /usr/share/jenkins/ref/jobs/SeedJob/workspace/dsl/
+
+# The list of plugins to install
+COPY plugins.txt /tmp/
+
+# Download plugins and their dependencies
+RUN mkdir /usr/share/jenkins/ref/plugins \
+	&& cat /tmp/plugins.txt \
+	| /opt/bin/resolve_jenkins_plugins_dependencies.py \
+	| /opt/bin/dowload_jenkins_plugins.py
+
+###############################################################################
+##                          customize below                                  ##
+###############################################################################
+
 # Eventually place here any `apt-get install` command to add tools to the image
 #
 
-USER jenkins
 
 # COPY your Seed Job DSL script
 COPY dsl/*.groovy /usr/share/jenkins/ref/jobs/SeedJob/workspace/dsl/
+
+
+###############################################################################
+RUN chown jenkins: /usr/share/jenkins/ -R
+USER jenkins

@@ -1,0 +1,8 @@
+job-dsl
+git
+github
+config-file-provider
+groovy-postbuild
+ansicolor
+rebuild
+sidebar-link

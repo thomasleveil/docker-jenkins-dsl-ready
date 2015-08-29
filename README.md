@@ -33,6 +33,8 @@ Included plugins
 
 - [Job DSL][job-dsl]
 - [Git][git]
+- [GitHub][github]
+- [Config File Provider][config-file-provider]
 - [Groovy PostBuild][groovy-postbuild]
 - [AnsiColor][ansicolor]
 - [Rebluid][rebuild]
@@ -151,3 +153,5 @@ directory when your container will be run.
 [dind-troubleshooting]: https://github.com/jpetazzo/dind#it-didnt-work
 [docker-rm]: https://docs.docker.com/reference/commandline/rm/
 [dind]: https://hub.docker.com/r/jpetazzo/dind/
+[github]: https://wiki.jenkins-ci.org/display/JENKINS/GitHub+Plugin
+[config-file-provider]: https://wiki.jenkins-ci.org/display/JENKINS/Config+File+Provider+Plugin
