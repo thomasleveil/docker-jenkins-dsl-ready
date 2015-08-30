@@ -14,7 +14,7 @@ RUN apt-get update \
 
 # a few helper scripts
 RUN mkdir /opt/bin
-COPY build/*.py /opt/bin/
+COPY build/*.py build/*.sh /opt/bin/
 RUN chmod +x /opt/bin/*
 
 # Groovy script to create the "SeedJob" (the standard way, not with DSL)
@@ -47,3 +47,4 @@ COPY dsl/*.groovy /usr/share/jenkins/ref/jobs/SeedJob/workspace/dsl/
 ###############################################################################
 RUN chown jenkins: /usr/share/jenkins/ -R
 USER jenkins
+ENTRYPOINT ["/opt/bin/entrypoint.sh"]
