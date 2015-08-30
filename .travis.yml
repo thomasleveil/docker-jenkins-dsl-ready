@@ -7,7 +7,7 @@ services:
 - docker
 
 script:
-- python -m doctest build/*.py
+- python -m doctest build/resolve_jenkins_plugins_dependencies.py
 - docker build -t tomdesinto/jenkins-dsl-ready .
 
 after_success:
