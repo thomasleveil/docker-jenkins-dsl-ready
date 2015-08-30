@@ -28,7 +28,10 @@ COPY plugins.txt /tmp/
 
 # Download plugins and their dependencies
 RUN mkdir /usr/share/jenkins/ref/plugins \
-	&& cat /tmp/plugins.txt \
+	&& ( \
+	    cat /tmp/plugins.txt; \
+	    unzip -l /usr/share/jenkins/jenkins.war | sed -nr 's|^.*WEB-INF/plugins/(.+?)\.hpi$|\1|p' \
+	) \
 	| /opt/bin/resolve_jenkins_plugins_dependencies.py \
 	| /opt/bin/dowload_jenkins_plugins.py
 
