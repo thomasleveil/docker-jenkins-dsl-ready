@@ -12,6 +12,7 @@ import fileinput
 from multiprocessing import Pool
 import os
 import urllib2
+import sys
 
 
 DESTINATION_FOLDER = '/usr/share/jenkins/ref/plugins'
@@ -23,6 +24,7 @@ def process_url(url):
         return
     file_name = url.split('/')[-1]
     print('downloading {:<30} \t{}'.format(file_name, url))
+    sys.stdout.flush()
     response = urllib2.urlopen(url)
     with open(os.path.join(DESTINATION_FOLDER, file_name), 'wb') as f:
         f.write(response.read())

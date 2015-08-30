@@ -71,6 +71,6 @@ if __name__ == '__main__':
             else:
                 print("plugin %s is already up to date (%s)" % (plugin_basename, current_plugin_version))
         else:
-            print("copying plugin %s (%s) %s" % (plugin_basename, reference_plugin_version, destination_file))
+            print("copying plugin {:<30} {}".format("%s (%s)" % (plugin_basename, reference_plugin_version), destination_file))
             shutil.copy(reference_file, destination_file)
             touch(pinned_file)
