@@ -26,7 +26,10 @@ When you start the container the following happens:
 2. Jenkins starts
 3. all Groovy scripts found in [$JENKINS_HOME/init.groovy.d/][init.groovy.d] are run, which includes our [create-seed-job.groovy script][create-seed-job.groovy]
 4. The _SeedJob_ is eventually created and a run is scheduled if it was missing
-5. The _SeedJob_, if run, creates additional jobs found in its workspace `dsl/` directory
+5. The _SeedJob_, if run, creates additional jobs found in its workspace:
+  - by default the groovy scripts are provided by the docker image (see the `dsl/` directory content)
+  - if a git repository url is provided with the `SEEDJOB_GIT` environment variable, the _SeedJob_ will fetch the groovy scripts from there
+  - else if a svn repository url is provided with the `SEEDJOB_SVN` environment variable, the _SeedJob_ will fetch the groovy scripts from there
 
 
 Included plugins
@@ -56,11 +59,16 @@ Included plugins
 Usage
 -----
 
-    docker run -d -p 8080:8080 --name jenkins tomdesinto/jenkins-dsl-ready
+    docker run -d -p 8080:8080 tomdesinto/jenkins-dsl-ready
 
-Once the _SeedJob_ is done, you will see the new jobs that were defined by the DSL scripts found in the _SeedJob_ workspace _dsl_ directory. 
+Once the _SeedJob_ is done, you will see the new jobs that were defined by the DSL scripts found in the _SeedJob_ workspace. 
 
 Now you can edit the _SeedJob_ and make it fetch your DSL scripts from a SVN/git repository and make it create your other jobs.
+
+If you want to provide the DSL scripts from a remote repository use one of the following forms:
+
+    docker run -d -p 8080:8080 -e SEEDJOB_GIT=https://your.repo.git tomdesinto/jenkins-dsl-ready
+    docker run -d -p 8080:8080 -e SEEDJOB_SVN=svn://your.repo tomdesinto/jenkins-dsl-ready
 
 
 ### Using Docker within jobs
