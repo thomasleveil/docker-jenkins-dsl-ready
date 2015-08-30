@@ -16,7 +16,6 @@ import json
 import sys
 import urllib2
 
-
 URL_JENKINS_UPDATE_CENTER = 'http://updates.jenkins-ci.org/update-center.json'
 
 
@@ -69,8 +68,8 @@ def get_download_urls(plugin_data):
     urls = set()
     for plugin_name in fileinput.input():
         if plugin_name.startswith('#') \
-            or plugin_name.startswith('//') \
-            or plugin_name.strip() == '':
+                or plugin_name.startswith('//') \
+                or plugin_name.strip() == '':
             continue
         print("resolving dependencies for %s" % plugin_name.strip(), file=sys.stderr)
         get_plugins_and_dependencies_urls(urls, plugins_data, plugin_name.strip())

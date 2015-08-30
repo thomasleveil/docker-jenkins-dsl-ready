@@ -22,7 +22,7 @@ def process_url(url):
     if not url:
         return
     file_name = url.split('/')[-1]
-    print("downloading %s" % file_name)
+    print('downloading {:<30} \t{}'.format(file_name, url))
     response = urllib2.urlopen(url)
     with open(os.path.join(DESTINATION_FOLDER, file_name), 'wb') as f:
         f.write(response.read())
