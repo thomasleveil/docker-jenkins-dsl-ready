@@ -44,7 +44,7 @@ RUN mkdir /usr/share/jenkins/ref/plugins \
 
 
 # COPY your Seed Job DSL script
-COPY dsl/*.groovy /usr/share/jenkins/ref/jobs/SeedJob/workspace/dsl/
+COPY dsl/*.groovy /usr/share/jenkins/ref/jobs/SeedJob/workspace/
 
 
 ###############################################################################

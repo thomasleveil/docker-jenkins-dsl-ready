@@ -144,8 +144,7 @@ Customizing the image
 ---------------------
 
 You can add DSL scripts to the [`dsl/`][dsl-dir] directory. When you build the
-docker image, those scripts will be stored and deployed to your Jenkins HOME 
-directory when your container will be run.
+docker image, those scripts will be copied to the _SeedJob_ workspace when the container will be run.
 
 
 
