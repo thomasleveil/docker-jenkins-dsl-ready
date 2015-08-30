@@ -6,3 +6,14 @@ groovy-postbuild
 ansicolor
 rebuild
 sidebar-link
+build-timeout
+cobertura
+copyartifact
+description-setter
+email-ext
+ghprb
+gradle
+parameterized-trigger
+publish-over-ssh
+warnings
+ws-cleanup
