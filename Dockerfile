@@ -3,7 +3,7 @@ FROM jenkins
 USER root
 
 # Install docker, so docker commands can be used in jobs
-RUN curl -sSL https://get.docker.com/ubuntu | sh \
+RUN curl -sSL https://get.docker.com | sh \
     && rm -rf /var/lib/apt/lists/* 
 
 # Install sudo to enpower jenkins (will be usefull for running docker in some cases)
