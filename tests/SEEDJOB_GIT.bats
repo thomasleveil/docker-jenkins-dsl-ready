@@ -1,10 +1,12 @@
 #!/usr/bin/env bats
 
+SUT_CONTAINER=bats-jenkins-git
+
 load test_helpers
 
-@test "eventually clean test containers" {
-    docker kill bats-jenkins-git bats-git &>/dev/null ||:
-    docker rm -fv bats-jenkins-git bats-git &>/dev/null ||:
+@test "clean test containers" {
+    docker kill $SUT_CONTAINER bats-git &>/dev/null ||:
+    docker rm -fv $SUT_CONTAINER bats-git &>/dev/null ||:
 }
 
 @test "setup a Git server" {
@@ -24,25 +26,35 @@ load test_helpers
     "
 }
 
-@test "container tomdesinto/jenkins-dsl-ready with SEEDJOB_GIT is running" {
-    docker run -d --name bats-jenkins-git -P \
+@test "container tomdesinto/jenkins-dsl-ready with SEEDJOB_GIT created" {
+    docker run -d --name $SUT_CONTAINER -P \
         --link bats-git:gitserver \
         -e SEEDJOB_GIT=git://gitserver/data \
         tomdesinto/jenkins-dsl-ready
 }
 
 @test "Jenkins is initialized" {
-    sleep 20
-    wait_for_jenkins bats-jenkins-git
-    test_url bats-jenkins-git /
+    retry 30 5 test_url /api/json
 }
 
 @test "job SeedJob exists" {
-    sleep 1
-    test_url bats-jenkins-git /job/SeedJob/
+    retry 5 2 test_url /job/SeedJob/api/json
+}
+
+@test "job SeedJob run #1 created" {
+    retry 5 2 test_url /job/SeedJob/1/api/json
+}
+
+@test "job SeedJob run #1 suceeded" {
+    jq_is_available_or_skip
+    local url=$(get_jenkins_url)/job/SeedJob/1/api/json
+
+    # wait while job is running
+    retry 10 1 curl -sS $url | jq --exit-status '.building==false'
+    
+    assert '"SUCCESS"' curl -sS $url | jq '.result'
 }
 
 @test "job 'job-from-git' exists" {
-    sleep 5
-    test_url bats-jenkins-git /job/job-from-git/
+    retry 15 1 test_url /job/job-from-git/api/json
 }
