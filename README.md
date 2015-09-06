@@ -116,13 +116,7 @@ You would then start the jenkins-dsl-ready container with:
 From now on, you can call directly the `docker` command.
 
 If docker fails with error `Error response from daemon: client is newer than server (client API version: 1.20, server API version: 1.19)`, or similar, then
-it means the version of the Docker client from the jenkins-dsl-ready image is newer than the Docker engine from the dind image.
-In that case you should [build][github-dind] yourself the dind image to get a more up-to-date version of the Docker engine.
-
-For other Docker errors, refer to the [dind README file][dind-troubleshooting].
-
-Note on disk usage: dind uses a docker volume for its Docker engine data (docker images/containers/volumes). To reclaim that space, you have to use the `-v` option of the [`docker rm`][docker-rm] command.
-
+it means the version of the Docker client from the jenkins-dsl-ready image is newer than the Docker engine from the dind image. Refer to the _note_ above to start a dind container having the right version of docker.
 
 #### Method 2 - Sharing the jenkins-dsl-ready Docker Host engine (root)
 
@@ -198,9 +192,7 @@ Your jobs might depend on software which is not available in this image. You can
 [init.groovy.d]: https://wiki.jenkins-ci.org/pages/viewpage.action?pageId=70877249
 [create-seed-job.groovy]: https://github.com/thomasleveil/docker-jenkins-dsl-ready/blob/master/create-seed-job.groovy
 [docker-rm]: https://docs.docker.com/reference/commandline/rm/
-[github-dind]: https://github.com/aluzzardi/dind
 [dind]: https://hub.docker.com/r/dockerswarm/dind/
-[dind-troubleshooting]: https://github.com/jpetazzo/dind#it-didnt-work
 [job-dsl]: https://wiki.jenkins-ci.org/display/JENKINS/Job+DSL+Plugin
 [ansicolor]: https://wiki.jenkins-ci.org/display/JENKINS/AnsiColor+Plugin
 [rebuild]: https://wiki.jenkins-ci.org/display/JENKINS/Rebuild+Plugin
