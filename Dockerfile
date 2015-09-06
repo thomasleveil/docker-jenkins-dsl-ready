@@ -24,7 +24,7 @@ RUN chmod +x /opt/bin/*
 COPY build/create-seed-job.groovy /usr/share/jenkins/ref/init.groovy.d/
 
 # The place where to put the DSL files for the Seed Job to run
-RUN mkdir -p /usr/share/jenkins/ref/jobs/SeedJob/workspace/dsl/
+RUN mkdir -p /usr/share/jenkins/ref/jobs/SeedJob/workspace/
 
 # The list of plugins to install
 COPY plugins.txt /tmp/
