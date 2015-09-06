@@ -14,8 +14,13 @@ Additionally, it comes with the **[Job DSL plugin][job-dsl] ready to use**.
 tl;dr
 -----
 
-    docker run -d -p 8080:8080 -name jenkins tomdesinto/jenkins-dsl-ready
+    docker run -d -p 8080:8080 tomdesinto/jenkins-dsl-ready
 
+    docker run -d -p 8080:8080 -v /your/dsl/files/:/usr/share/jenkins/ref/jobs/SeedJob/workspace/:ro tomdesinto/jenkins-dsl-ready
+
+    docker run -d -p 8080:8080 -e SEEDJOB_GIT=https://your.repo.git tomdesinto/jenkins-dsl-ready
+
+    docker run -d -p 8080:8080 -e SEEDJOB_SVN=svn://your.repo tomdesinto/jenkins-dsl-ready
 
 What does it do?
 ----------------
@@ -59,21 +64,28 @@ Included plugins
 Usage
 -----
 
+### Default DSL jobs
+
+By running the image as follow:
+
     docker run -d -p 8080:8080 tomdesinto/jenkins-dsl-ready
 
-Once the _SeedJob_ is done, you will see the new jobs that were defined by the DSL scripts found in the _SeedJob_ workspace. 
+You will end up with an instance of Jenkins that demonstrates the usage of the DSL plugin. In this configuration you will have 2 default jobs created additionally to the _SeedJob_.
 
-Now you can edit the _SeedJob_ and make it fetch your DSL scripts from a SVN/git repository and make it create your other jobs.
+From there you can edit the _SeedJob_ and make it fetch your DSL scripts from a SVN/git repository and make it create your other jobs.
 
-If you want to provide the DSL scripts from a remote repository use one of the following forms:
+### Providing DSL jobs with Git/SVN
+
+If you want to provide the DSL scripts from a remote repository, use either the `SEEDJOB_GIT` or `SEEDJOB_SVN` environment variables.
 
     docker run -d -p 8080:8080 -e SEEDJOB_GIT=https://your.repo.git tomdesinto/jenkins-dsl-ready
     docker run -d -p 8080:8080 -e SEEDJOB_SVN=svn://your.repo tomdesinto/jenkins-dsl-ready
 
-or from a directory on your docker host:
+### Providing DSL jobs from a directory
+
+You can provide you groovy DSL files from a directory on your docker host by mounting this directory with a docker volume on `/usr/share/jenkins/ref/jobs/SeedJob/workspace/`.
 
     docker run -d -p 8080:8080 -v /somewhere/on/your/host/dsl/:/usr/share/jenkins/ref/jobs/SeedJob/workspace/:ro tomdesinto/jenkins-dsl-ready
-
 
 ### Using Docker within jobs
 
