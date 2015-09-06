@@ -3,11 +3,8 @@
 (
     type docker &>/dev/null || ( echo "docker is not available"; exit 1 )
     type curl &>/dev/null || ( echo "curl is not available"; exit 1 )
+    type jq &>/dev/null || ( echo "jq is not available (https://stedolan.github.io/jq/)"; exit 1 )
 )>&2
-
-function jq_is_available_or_skip {
-    type jq &>/dev/null || skip "jq is required"
-}
 
 function assert {
     local expected_output=$1
@@ -39,17 +36,39 @@ function retry {
     false
 }
 
-function get_jenkins_url {
-    echo "http://localhost:$(docker port $SUT_CONTAINER 8080 | cut -d: -f2)"
-}
-
-function test_url {
-    run curl --output /dev/null --silent --head --fail --connect-timeout 30 --max-time 60 $(get_jenkins_url)$1
-    if [ "$status" -eq 0 ]; then
-        true
-    else
-        echo "URL $(get_jenkins_url)$1 failed" >&2
-        echo "output: $output" >&2
-        false
+# compare version $1 against $2
+# results:
+# - 0 : $1 == $2
+# - 1 : $1 >  $2
+# - 2 : $1 <  $2
+# See http://stackoverflow.com/a/4025065/107049
+function vercomp {
+    if [[ $1 == $2 ]]
+    then
+        echo 0
     fi
+    local IFS=.
+    local i ver1=($1) ver2=($2)
+    # fill empty fields in ver1 with zeros
+    for ((i=${#ver1[@]}; i<${#ver2[@]}; i++))
+    do
+        ver1[i]=0
+    done
+    for ((i=0; i<${#ver1[@]}; i++))
+    do
+        if [[ -z ${ver2[i]} ]]
+        then
+            # fill empty fields in ver2 with zeros
+            ver2[i]=0
+        fi
+        if ((10#${ver1[i]} > 10#${ver2[i]}))
+        then
+            echo 1
+        fi
+        if ((10#${ver1[i]} < 10#${ver2[i]}))
+        then
+            echo 2
+        fi
+    done
+    echo 0
 }
