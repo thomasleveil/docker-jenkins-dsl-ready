@@ -70,6 +70,10 @@ If you want to provide the DSL scripts from a remote repository use one of the f
     docker run -d -p 8080:8080 -e SEEDJOB_GIT=https://your.repo.git tomdesinto/jenkins-dsl-ready
     docker run -d -p 8080:8080 -e SEEDJOB_SVN=svn://your.repo tomdesinto/jenkins-dsl-ready
 
+or from a directory on your docker host:
+
+    docker run -d -p 8080:8080 -v /somewhere/on/your/host/dsl/:/usr/share/jenkins/ref/jobs/SeedJob/workspace/:ro tomdesinto/jenkins-dsl-ready
+
 
 ### Using Docker within jobs
 
