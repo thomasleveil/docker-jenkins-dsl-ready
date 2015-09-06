@@ -159,9 +159,24 @@ Plugin, you should start with the [tutorial][dsl-tutorial].
 Customizing the image
 ---------------------
 
-You can add DSL scripts to the [`dsl/`][dsl-dir] directory. When you build the
-docker image, those scripts will be copied to the _SeedJob_ workspace when the container will be run.
+### Other default DSL files
 
+You can add default DSL scripts to the [`dsl/`][dsl-dir] directory. When you build the docker image, those scripts will be copied to the _SeedJob_ workspace when the container will be run.
+
+### Add software
+
+Your jobs might depend on software which is not available in this image. You can build your own image with additional software by adding the commands to install them after the _customize below_ section.
+
+    ###############################################################################
+    ##                          customize below                                  ##
+    ###############################################################################
+
+    # Eventually place here any `apt-get install` command to add tools to the image
+    #
+
+
+    # COPY your Seed Job DSL script
+    COPY dsl/*.groovy /usr/share/jenkins/ref/jobs/SeedJob/workspace/
 
 
 [official-jenkins]: https://github.com/jenkinsci/docker/blob/master/README.md
