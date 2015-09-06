@@ -75,14 +75,18 @@ If you want to provide the DSL scripts from a remote repository use one of the f
 
 #### Method 1 - Using dind (Docker in Docker)
 
-Using the [jpetazzo/dind][dind] image, you can start a container which run another Docker engine, and make this new engine available to your jenkins-dsl-ready container through links:
+Using the [dockerswarm/dind][dind] image, you can start a container which run another Docker engine, and make this new engine available to your jenkins-dsl-ready container through links:
 
     docker run -d \
         --privileged \
         --expose 2375 \
-        -e PORT=2375 \
         --name dind \
-        jpetazzo/dind
+        dockerswarm/dind:1.8.1 \
+        docker daemon -H 0.0.0.0:2375 -H unix:///var/run/docker.sock
+
+**note:** use the `dockerswarm/dind` tag that matches your docker version. i.e.: `dockerswarm/dind:1.8.1` if you have docker `v1.8.1`.
+
+**note2:** before docker v1.8.0, the command to run the daemon is `docker -d` instead of `docker daemon`.
 
 You would then start the jenkins-dsl-ready container with:
 
@@ -162,10 +166,10 @@ docker image, those scripts will be copied to the _SeedJob_ workspace when the c
 [dsl-dir]: https://github.com/thomasleveil/docker-jenkins-dsl-ready/tree/master/dsl
 [init.groovy.d]: https://wiki.jenkins-ci.org/pages/viewpage.action?pageId=70877249
 [create-seed-job.groovy]: https://github.com/thomasleveil/docker-jenkins-dsl-ready/blob/master/create-seed-job.groovy
-[github-dind]: https://github.com/jpetazzo/dind
-[dind-troubleshooting]: https://github.com/jpetazzo/dind#it-didnt-work
 [docker-rm]: https://docs.docker.com/reference/commandline/rm/
-[dind]: https://hub.docker.com/r/jpetazzo/dind/
+[github-dind]: https://github.com/aluzzardi/dind
+[dind]: https://hub.docker.com/r/dockerswarm/dind/
+[dind-troubleshooting]: https://github.com/jpetazzo/dind#it-didnt-work
 [job-dsl]: https://wiki.jenkins-ci.org/display/JENKINS/Job+DSL+Plugin
 [ansicolor]: https://wiki.jenkins-ci.org/display/JENKINS/AnsiColor+Plugin
 [rebuild]: https://wiki.jenkins-ci.org/display/JENKINS/Rebuild+Plugin
