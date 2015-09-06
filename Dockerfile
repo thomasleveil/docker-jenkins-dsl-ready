@@ -3,8 +3,11 @@ FROM jenkins
 USER root
 
 # Install docker, so docker commands can be used in jobs
-RUN curl -sSL https://get.docker.com | sh \
-    && rm -rf /var/lib/apt/lists/* 
+ENV DOCKER_VERSION 1.8.1
+RUN curl -sSL https://get.docker.com/builds/Linux/x86_64/docker-$DOCKER_VERSION > /usr/bin/docker \
+	&& groupadd docker \
+	&& chmod 0755 /usr/bin/docker \
+	&& usermod -a -G docker jenkins
 
 # Install sudo to enpower jenkins (will be usefull for running docker in some cases)
 RUN apt-get update \
