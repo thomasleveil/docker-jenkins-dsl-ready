@@ -5,7 +5,7 @@ SUT_CONTAINER=bats-jenkins-docker
 load test_helpers
 load jenkins_helpers
 
-@test "clean test containers" {
+@test "------ preparing $(basename $BATS_TEST_FILENAME .bats) ------" {
     docker kill $SUT_CONTAINER &>/dev/null ||:
     docker rm -fv $SUT_CONTAINER &>/dev/null ||:
 }
@@ -15,6 +15,7 @@ load jenkins_helpers
         -v $BATS_TEST_DIRNAME/resources/dsl-job-using-docker/:/usr/share/jenkins/ref/jobs/SeedJob/workspace/:ro \
         -P \
         -v /var/run/docker.sock:/var/run/docker.sock \
+        -v $(which docker):/usr/bin/docker:ro \
         -u root \
         tomdesinto/jenkins-dsl-ready
 }

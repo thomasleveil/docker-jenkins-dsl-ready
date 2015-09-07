@@ -5,7 +5,7 @@ SUT_CONTAINER=bats-jenkins
 load test_helpers
 load jenkins_helpers
 
-@test "clean test containers" {
+@test "------ preparing $(basename $BATS_TEST_FILENAME .bats) ------" {
     docker kill $SUT_CONTAINER &>/dev/null ||:
     docker rm -fv $SUT_CONTAINER &>/dev/null ||:
 }

@@ -6,7 +6,7 @@ DIND_CONTAINER=bats-dind
 load test_helpers
 load jenkins_helpers
 
-@test "clean test containers" {
+@test "------ preparing $(basename $BATS_TEST_FILENAME .bats) ------" {
     docker kill $SUT_CONTAINER &>/dev/null ||:
     docker rm -fv $SUT_CONTAINER &>/dev/null ||:
     docker kill $DIND_CONTAINER &>/dev/null ||:
@@ -27,13 +27,14 @@ load jenkins_helpers
 }
 
 @test "dind container is functionnal" {
-    docker exec $DIND_CONTAINER docker version
+    retry 3 1 docker exec $DIND_CONTAINER docker version
 }
 
 @test "SUT container with dind capabilities created" {
     docker run -d --name $SUT_CONTAINER \
         --link $DIND_CONTAINER:dind \
         -e DOCKER_HOST=tcp://dind:2375 \
+        -v $(which docker):/usr/bin/docker:ro \
         -v $BATS_TEST_DIRNAME/resources/dsl-job-using-docker/:/usr/share/jenkins/ref/jobs/SeedJob/workspace/:ro \
         -P \
         tomdesinto/jenkins-dsl-ready

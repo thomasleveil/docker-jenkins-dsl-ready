@@ -6,7 +6,7 @@ SVN_CONTAINER=bats-svn
 load test_helpers
 load jenkins_helpers
 
-@test "clean test containers" {
+@test "------ preparing $(basename $BATS_TEST_FILENAME .bats) ------" {
     docker kill $SUT_CONTAINER &>/dev/null ||:
     docker rm -fv $SUT_CONTAINER &>/dev/null ||:
     docker kill $SVN_CONTAINER &>/dev/null ||:
