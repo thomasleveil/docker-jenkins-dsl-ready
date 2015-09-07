@@ -114,7 +114,7 @@ You would then start the jenkins-dsl-ready container with:
         --name jenkins \
         tomdesinto/jenkins-dsl-ready
 
-From now on, you can call directly the `docker` command.
+From now on, you can call directly the `docker` command within Jenkins jobs.
 
 If docker fails with error `Error response from daemon: client is newer than server (client API version: 1.20, server API version: 1.19)`, or similar, then
 it means the version of the Docker client from the jenkins-dsl-ready image is newer than the Docker engine from the dind image. Refer to the _note_ above to start a dind container having the right version of docker.
