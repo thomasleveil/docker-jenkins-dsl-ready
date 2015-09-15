@@ -89,9 +89,46 @@ You can provide you groovy DSL files from a directory on your docker host by mou
 
 ### Using Docker within jobs
 
-#### Method 1 - Using dind (Docker in Docker)
+#### Method 1 - Sharing the jenkins-dsl-ready Docker Host engine (root)
 
-Using the [dockerswarm/dind][dind] image, you can start a container which run another Docker engine, and make this new engine available to your jenkins-dsl-ready container through links:
+If you want your jobs to be able to make use of the Docker engine running on the Jenkins container host, first note that this is **insecure** as any Jenkins jobs will be able to take control of the full Docker engine (meaning even deleting any image/container on the Docker host), then you need to start the _jenkins-dsl-ready_ container a bit differently:
+
+- Jenkins must be run by the user _root_
+- The `/var/run/docker.sock` socket file must be mounted as a volume
+
+In the end, the command to run such a container is:
+
+    docker run -d \
+        -u root \
+        -v /var/run/docker.sock:/var/run/docker.sock \
+        -v $(which docker):/usr/bin/docker:ro \
+        -p 8080:8080 \
+        --name jenkins \
+        tomdesinto/jenkins-dsl-ready
+
+From now on, you can call directly the `docker` command.
+
+
+#### Method 2 - Sharing the jenkins-dsl-ready Docker Host engine (sudo)
+
+Same as method 2, but we don't run Jenkins as _root_. In this case the Jenkins jobs will have to use `sudo docker` instead of just `docker`:
+
+    docker run -d \
+        -v /var/run/docker.sock:/var/run/docker.sock \
+        -v $(which docker):/usr/bin/docker:ro \
+        -p 8080:8080 \
+        --name jenkins \
+        tomdesinto/jenkins-dsl-ready
+
+In this setup, you can use docker with sudo: `sudo docker`.
+
+Care should be given to files rights in Jenkins jobs. If a job makes use of `sudo` to run a command which will write files in the job workspace, those files
+will be owned by _root_. Jenkins would then be unable to manage then (wipe workspace, clear, etc) unless your job also makes sure to call `chown jenkins` on them.
+
+
+#### Method 3 - Using dind (Docker in Docker)
+
+Using the [dockerswarm/dind][dind] image (or similar _dind_ images), you can start a container which runs another _child_ Docker engine which will be available to your jenkins-dsl-ready container through links. Be aware of constraints and pitfalls that comes with such a setup. Make sure to read [Using Docker-in-Docker for your CI or testing environment? Think twice](https://jpetazzo.github.io/2015/09/03/do-not-use-docker-in-docker-for-ci/) from Jérôme Petazzoni.
 
     docker run -d \
         --privileged \
@@ -118,42 +155,6 @@ From now on, you can call directly the `docker` command within Jenkins jobs.
 
 If docker fails with error `Error response from daemon: client is newer than server (client API version: 1.20, server API version: 1.19)`, or similar, then
 it means the version of the Docker client from the jenkins-dsl-ready image is newer than the Docker engine from the dind image. Refer to the _note_ above to start a dind container having the right version of docker.
-
-#### Method 2 - Sharing the jenkins-dsl-ready Docker Host engine (root)
-
-If you want your jobs to be able to make use of the Docker engine running on the Jenkins container host, first note that this is **insecure** as any Jenkins jobs will be able to take control of the full Docker engine (meaning even deleting any image/container on the Docker host), then you need to start the _jenkins-dsl-ready_ container a bit differently:
-
-- Jenkins must be run by the user _root_
-- The `/var/run/docker.sock` socket file must be mounted as a volume
-
-In the end, the command to run such a container is:
-
-    docker run -d \
-        -u root \
-        -v /var/run/docker.sock:/var/run/docker.sock \
-        -v $(which docker):/usr/bin/docker:ro \
-        -p 8080:8080 \
-        --name jenkins \
-        tomdesinto/jenkins-dsl-ready
-
-From now on, you can call directly the `docker` command.
-
-
-#### Method 3 - Sharing the jenkins-dsl-ready Docker Host engine (sudo)
-
-Same as method 2, but we don't run Jenkins as _root_. In this case the Jenkins jobs will have to use `sudo docker` instead of just `docker`:
-
-    docker run -d \
-        -v /var/run/docker.sock:/var/run/docker.sock \
-        -v $(which docker):/usr/bin/docker:ro \
-        -p 8080:8080 \
-        --name jenkins \
-        tomdesinto/jenkins-dsl-ready
-
-In this setup, you can use docker with sudo: `sudo docker`.
-
-Care should be given to files rights in Jenkins jobs. If a job makes use of `sudo` to run a command which will write files in the job workspace, those files
-will be owned by _root_. Jenkins would then be unable to manage then (wipe workspace, clear, etc) unless your job also makes sure to call `chown jenkins` on them.
 
 
 DSL syntax
