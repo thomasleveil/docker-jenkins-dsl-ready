@@ -1,0 +1,13 @@
+# Use docker-enabled workers (currently private beta - contact support@solanolabs.com)
+system:
+  docker: true
+
+hooks:
+  pre_setup: |
+    sudo add-apt-repository ppa:duggan/bats --yes
+    sudo apt-get update -qq
+    sudo apt-get install -qq bats
+    sudo docker pull jenkins
+    sudo docker -t tomdesinto/jenkins-dsl-ready . 
+tests:
+  - sudo bats tests
