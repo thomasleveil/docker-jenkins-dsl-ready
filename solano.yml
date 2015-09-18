@@ -1,7 +1,8 @@
 # Use docker-enabled workers (currently private beta - contact support@solanolabs.com)
 system:
   docker: true
-
+python:
+  python_version: 2.7
 hooks:
   pre_setup: |
     sudo add-apt-repository ppa:duggan/bats --yes
@@ -10,4 +11,5 @@ hooks:
     sudo docker pull jenkins
     sudo docker -t tomdesinto/jenkins-dsl-ready . 
 tests:
+  - python -m doctest build/resolve_jenkins_plugins_dependencies.py
   - sudo bats tests
