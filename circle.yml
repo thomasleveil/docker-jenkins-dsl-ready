@@ -12,5 +12,5 @@ dependencies:
 test:
   override:
     - python -m doctest build/resolve_jenkins_plugins_dependencies.py
-    - docker build -t jwilder/nginx-proxy:bats .
+    - docker build -t tomdesinto/jenkins-dsl-ready .
     - bats tests
