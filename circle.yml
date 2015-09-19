@@ -6,7 +6,7 @@ dependencies:
   override:
     - sudo add-apt-repository ppa:duggan/bats --yes
     - sudo apt-get update -qq
-    - sudo apt-get install -qq bats
+    - sudo apt-get install -qq bats jq
     - docker pull jenkins:latest
     
 test:
