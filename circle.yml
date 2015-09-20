@@ -15,7 +15,4 @@ test:
   override:
     - python -m doctest build/resolve_jenkins_plugins_dependencies.py
     - docker build -t tomdesinto/jenkins-dsl-ready .
-    # fix `docker exec`. See https://circleci.com/docs/docker#docker-exec
-    - function docker_exec { MY_CONTAINER_NAME=$1; shift; MY_COMMAND="$@"; sudo lxc-attach -n "$(docker inspect --format '{{.Id}}' $MY_CONTAINER_NAME)" -- bash -c $MY_COMMAND; }
-    - sed -i 's/docker exec/docker_exec/g' tests/job-using-dind.bats
     - bats tests

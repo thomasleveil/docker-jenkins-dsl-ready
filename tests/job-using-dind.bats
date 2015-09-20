@@ -18,9 +18,9 @@ load lib/test_helpers
 }
 
 @test "dind container is functionnal" {
+    sleep 3s
     run docker_running_state $DIND_CONTAINER
     [ "$output" = "true" ]
-    retry 3 1 docker exec $DIND_CONTAINER docker version
 }
 
 @test "SUT container with dind capabilities created" {
