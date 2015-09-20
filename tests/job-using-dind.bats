@@ -48,7 +48,12 @@ load lib/test_helpers
 }
 
 @test "job SeedJob last build suceeded" {
-    jenkins_job_success SeedJob
+    jenkins_job_success SeedJob || {
+        echo -e "\n\n---------------------------------------------------------"
+        curl --silent --fail $(get_jenkins_url)/job/SeedJob/lastBuild/consoleText
+        echo -e "---------------------------------------------------------\n\n"
+        false
+    }
 }
 
 ################################################################################
@@ -62,5 +67,10 @@ load lib/test_helpers
 }
 
 @test "job test-docker run #1 suceeded" {
-    jenkins_job_success test-docker
+    jenkins_job_success test-docker || {
+        echo -e "\n\n---------------------------------------------------------"
+        curl --silent --fail $(get_jenkins_url)/job/test-docker/lastBuild/consoleText
+        echo -e "---------------------------------------------------------\n\n"
+        false
+    }
 }
