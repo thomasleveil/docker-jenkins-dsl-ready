@@ -4,6 +4,7 @@ cobertura
 config-file-provider
 copyartifact
 description-setter
+docker-workflow
 email-ext
 ghprb
 git
@@ -16,4 +17,5 @@ publish-over-ssh
 rebuild
 sidebar-link
 warnings
+workflow-aggregator
 ws-cleanup

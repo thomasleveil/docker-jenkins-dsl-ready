@@ -41,6 +41,8 @@ Included plugins
 ----------------
 
 - [Job DSL][job-dsl]
+- [Workflow][workflow-aggregator]
+- [CloudBees Docker Workflow][docker-workflow]
 - [Git][git]
 - [GitHub][github]
 - [GitHub pull request builder][ghprb]
@@ -198,6 +200,7 @@ Your jobs might depend on software which is not available in this image. You can
 [description-setter]: https://wiki.jenkins-ci.org/display/JENKINS/Description+Setter+Plugin
 [dind]: https://hub.docker.com/r/dockerswarm/dind/
 [docker-rm]: https://docs.docker.com/reference/commandline/rm/
+[docker-workflow]: https://wiki.jenkins-ci.org/display/JENKINS/CloudBees+Docker+Workflow+Plugin
 [dsl-dir]: https://github.com/thomasleveil/docker-jenkins-dsl-ready/tree/master/dsl
 [dsl-job]: https://github.com/jenkinsci/job-dsl-plugin/wiki/Job-reference
 [dsl-tutorial]: https://github.com/jenkinsci/job-dsl-plugin/wiki/Tutorial---Using-the-Jenkins-Job-DSL
@@ -215,4 +218,5 @@ Your jobs might depend on software which is not available in this image. You can
 [rebuild]: https://wiki.jenkins-ci.org/display/JENKINS/Rebuild+Plugin
 [sidebar-link]: https://wiki.jenkins-ci.org/display/JENKINS/Sidebar-Link+Plugin
 [warnings]:  https://wiki.jenkins-ci.org/display/JENKINS/Warnings+Plugin
+[workflow-aggregator]: https://wiki.jenkins-ci.org/display/JENKINS/Workflow+Plugin
 [ws-cleanup]: https://wiki.jenkins-ci.org/display/JENKINS/Workspace+Cleanup+Plugin
