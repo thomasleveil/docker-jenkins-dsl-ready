@@ -11,7 +11,8 @@ load ${DIR}/jenkins_helpers.bash
 load ${DIR}/docker_helpers.bash
 
 # use those options to enable the use of the docker command from a container
-DOCKER_OPTS_ENABLING_DOCKER="-v $(which docker):/usr/bin/docker:ro"
+DOCKER_OPTS_ENABLING_DOCKER="-v $(which docker):/usr/bin/docker:ro \
+    -v /usr/lib/x86_64-linux-gnu/libapparmor.so.1.1.0:/lib/x86_64-linux-gnu/libapparmor.so.1"
 
 
 function assert {
