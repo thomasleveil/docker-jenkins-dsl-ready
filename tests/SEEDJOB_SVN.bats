@@ -13,7 +13,7 @@ load lib/test_helpers
 @test "setup a SVN server" {
     docker run -d --name $SVN_CONTAINER erikxiv/subversion
     sleep 2
-    docker run --rm --link $SVN_CONTAINER:svnserver erikxiv/subversion bash -c "
+    docker run --link $SVN_CONTAINER:svnserver erikxiv/subversion bash -c "
         echo \"job('job-from-svn') {}\" > job-from-svn.groovy
         svn import job-from-svn.groovy svn://svnserver/repos/job-from-svn.groovy -m 'first import'
     "

@@ -15,7 +15,7 @@ load lib/test_helpers
         git init --bare && git daemon --export-all --enable=receive-pack
     "
     sleep 2
-    docker run --rm -t --link $GIT_CONTAINER:gitserver yesops/git bash -c "
+    docker run -t --link $GIT_CONTAINER:gitserver yesops/git bash -c "
         git config --global user.email 'you@example.com'
         git config --global user.name 'Your Name'
         git clone git://gitserver/data
