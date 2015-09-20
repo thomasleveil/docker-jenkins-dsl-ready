@@ -130,18 +130,11 @@ will be owned by _root_. Jenkins would then be unable to manage then (wipe works
 
 #### Method 3 - Using dind (Docker in Docker)
 
-Using the [dockerswarm/dind][dind] image (or similar _dind_ images), you can start a container which runs another _child_ Docker engine which will be available to your jenkins-dsl-ready container through links. Be aware of constraints and pitfalls that comes with such a setup. Make sure to read [Using Docker-in-Docker for your CI or testing environment? Think twice](https://jpetazzo.github.io/2015/09/03/do-not-use-docker-in-docker-for-ci/) from Jérôme Petazzoni.
+Using the official [docker:dind][dind] image, you can start a container which runs another _child_ Docker engine which will be available to your jenkins-dsl-ready container through links. Be aware of constraints and pitfalls that comes with such a setup. Make sure to read [Using Docker-in-Docker for your CI or testing environment? Think twice](https://jpetazzo.github.io/2015/09/03/do-not-use-docker-in-docker-for-ci/) from Jérôme Petazzoni.
 
-    docker run -d \
-        --privileged \
-        --expose 2375 \
-        --name dind \
-        dockerswarm/dind:1.8.1 \
-        docker daemon -H 0.0.0.0:2375 -H unix:///var/run/docker.sock
+    docker run -d --privileged --name dind docker:1.8-dind
 
-**note:** use the `dockerswarm/dind` tag that matches your docker version. i.e.: `dockerswarm/dind:1.8.1` if you have docker `v1.8.1`.
-
-**note2:** before docker v1.8.0, the command to run the daemon is `docker -d` instead of `docker daemon`.
+**note:** use the tag that matches your docker version. i.e.: `docker:1.8-dind` if you have docker `v1.8.1` or `v1.8.2`. `docker:1.7-dind` if you have docker `v1.7.x`, and so on. See available tags at https://hub.docker.com/r/library/docker/tags/
 
 You would then start the jenkins-dsl-ready container with:
 
@@ -155,8 +148,12 @@ You would then start the jenkins-dsl-ready container with:
 
 From now on, you can call directly the `docker` command within Jenkins jobs.
 
+#### Troubleshooting
+
 If docker fails with error `Error response from daemon: client is newer than server (client API version: 1.20, server API version: 1.19)`, or similar, then
 it means the version of the Docker client from the jenkins-dsl-ready image is newer than the Docker engine from the dind image. Refer to the _note_ above to start a dind container having the right version of docker.
+
+If docker fails with error `docker: error while loading shared libraries: libapparmor.so.1: cannot open shared object file: No such file or directory`, then you need to mount another volume on your container to enable the docker process to use the appArmor shared libraries. Depending on your system, the exact location of the librairies might differ from the following example: `-v /usr/lib/x86_64-linux-gnu/libapparmor.so.1.1.0:/lib/x86_64-linux-gnu/libapparmor.so.1`
 
 
 DSL syntax

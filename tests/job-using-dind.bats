@@ -11,16 +11,10 @@ load lib/test_helpers
 }
 
 @test "dind container created" {
-    local DOCKER_VERSION=$(docker --version | sed -r 's/^Docker version ([0-9.]+).*$/\1/')
-    local DOCKER_DAEMON_CMD="docker daemon"
-    if [[ "$(vercomp $DOCKER_VERSION '1.8.0')" = "2" ]]; then
-        DOCKER_DAEMON_CMD="docker -d"
-    fi
+    local -r DOCKER_VERSION_MINOR=$(docker --version | sed -r 's/^Docker version ([0-9]+\.[0-9]+).*$/\1/')
     docker run -d --name $DIND_CONTAINER \
         --privileged \
-        --expose 2375 \
-        dockerswarm/dind:$DOCKER_VERSION \
-        $DOCKER_DAEMON_CMD -H 0.0.0.0:2375 -H unix:///var/run/docker.sock
+        docker:${DOCKER_VERSION_MINOR}-dind
 }
 
 @test "dind container is functionnal" {
