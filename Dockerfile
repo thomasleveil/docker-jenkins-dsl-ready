@@ -29,7 +29,7 @@ RUN mkdir /usr/share/jenkins/ref/plugins \
 	    unzip -l /usr/share/jenkins/jenkins.war | sed -nr 's|^.*WEB-INF/plugins/(.+?)\.hpi$|\1|p' \
 	) \
 	| /opt/bin/resolve_jenkins_plugins_dependencies.py \
-	| /opt/bin/dowload_jenkins_plugins.py
+	| /opt/bin/download_jenkins_plugins.py
 
 ###############################################################################
 ##                          customize below                                  ##
