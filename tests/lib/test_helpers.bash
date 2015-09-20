@@ -6,6 +6,11 @@
     type jq &>/dev/null || ( echo "jq is not available (https://stedolan.github.io/jq/)"; exit 1 )
 )>&2
 
+DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+load ${DIR}/jenkins_helpers.bash
+load ${DIR}/docker_helpers.bash
+
+
 function assert {
     local expected_output=$1
     shift

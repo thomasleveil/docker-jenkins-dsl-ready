@@ -3,14 +3,11 @@
 SUT_CONTAINER=bats-jenkins-dind
 DIND_CONTAINER=bats-dind
 
-load test_helpers
-load jenkins_helpers
+load lib/test_helpers
 
 @test "------ preparing $(basename $BATS_TEST_FILENAME .bats) ------" {
-    docker kill $SUT_CONTAINER &>/dev/null ||:
-    docker rm -fv $SUT_CONTAINER &>/dev/null ||:
-    docker kill $DIND_CONTAINER &>/dev/null ||:
-    docker rm -fv $DIND_CONTAINER &>/dev/null ||:
+    docker_clean $SUT_CONTAINER
+    docker_clean $DIND_CONTAINER
 }
 
 @test "dind container created" {
@@ -27,6 +24,8 @@ load jenkins_helpers
 }
 
 @test "dind container is functionnal" {
+    run docker_running_state $DIND_CONTAINER
+    [ "$output" = "true" ]
     retry 3 1 docker exec $DIND_CONTAINER docker version
 }
 

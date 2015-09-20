@@ -3,14 +3,11 @@
 SUT_CONTAINER=bats-jenkins-git
 GIT_CONTAINER=bats-git
 
-load test_helpers
-load jenkins_helpers
+load lib/test_helpers
 
 @test "------ preparing $(basename $BATS_TEST_FILENAME .bats) ------" {
-    docker kill $SUT_CONTAINER &>/dev/null ||:
-    docker rm -fv $SUT_CONTAINER &>/dev/null ||:
-    docker kill $GIT_CONTAINER &>/dev/null ||:
-    docker rm -fv $GIT_CONTAINER &>/dev/null ||:
+    docker_clean $SUT_CONTAINER
+    docker_clean $GIT_CONTAINER
 }
 
 @test "setup a Git server" {
