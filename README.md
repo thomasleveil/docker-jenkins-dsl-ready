@@ -43,17 +43,17 @@ Included plugins
 - [Job DSL][job-dsl]
 - [Git][git]
 - [GitHub][github]
+- [GitHub pull request builder][ghprb]
 - [Config File Provider][config-file-provider]
 - [Groovy PostBuild][groovy-postbuild]
 - [AnsiColor][ansicolor]
-- [Rebluid][rebuild]
+- [Rebuild][rebuild]
 - [Sidebar-Link][sidebar-link]
 - [Build-timeout][build-timeout]
 - [Cobertura][cobertura]
 - [Copy Artifact][copyartifact]
 - [Description Setter][description-setter]
 - [Email-ext][email-ext]
-- [GitHub pull request builder][ghprb]
 - [Gradle][gradle]
 - [Parameterized  Trigger][parameterized-trigger]
 - [Publish Over Ssh][publish-over-ssh]
@@ -189,30 +189,30 @@ Your jobs might depend on software which is not available in this image. You can
     COPY dsl/*.groovy /usr/share/jenkins/ref/jobs/SeedJob/workspace/
 
 
-[official-jenkins]: https://github.com/jenkinsci/docker/blob/master/README.md
-[dsl-job]: https://github.com/jenkinsci/job-dsl-plugin/wiki/Job-reference
-[dsl-tutorial]: https://github.com/jenkinsci/job-dsl-plugin/wiki/Tutorial---Using-the-Jenkins-Job-DSL
-[dsl-dir]: https://github.com/thomasleveil/docker-jenkins-dsl-ready/tree/master/dsl
-[init.groovy.d]: https://wiki.jenkins-ci.org/pages/viewpage.action?pageId=70877249
-[create-seed-job.groovy]: https://github.com/thomasleveil/docker-jenkins-dsl-ready/blob/master/create-seed-job.groovy
-[docker-rm]: https://docs.docker.com/reference/commandline/rm/
-[dind]: https://hub.docker.com/r/dockerswarm/dind/
-[job-dsl]: https://wiki.jenkins-ci.org/display/JENKINS/Job+DSL+Plugin
 [ansicolor]: https://wiki.jenkins-ci.org/display/JENKINS/AnsiColor+Plugin
-[rebuild]: https://wiki.jenkins-ci.org/display/JENKINS/Rebuild+Plugin
-[git]: https://wiki.jenkins-ci.org/display/JENKINS/Git+Plugin
-[sidebar-link]: https://wiki.jenkins-ci.org/display/JENKINS/Sidebar-Link+Plugin
-[groovy-postbuild]: https://wiki.jenkins-ci.org/display/JENKINS/Groovy+Postbuild+Plugin#GroovyPostbuildPlugin-Exampleusages
-[github]: https://wiki.jenkins-ci.org/display/JENKINS/GitHub+Plugin
-[config-file-provider]: https://wiki.jenkins-ci.org/display/JENKINS/Config+File+Provider+Plugin
 [build-timeout]: https://wiki.jenkins-ci.org/display/JENKINS/Build-timeout+Plugin
 [cobertura]: https://wiki.jenkins-ci.org/display/JENKINS/Cobertura+Plugin
+[config-file-provider]: https://wiki.jenkins-ci.org/display/JENKINS/Config+File+Provider+Plugin
 [copyartifact]: https://wiki.jenkins-ci.org/display/JENKINS/Copy+Artifact+Plugin
+[create-seed-job.groovy]: https://github.com/thomasleveil/docker-jenkins-dsl-ready/blob/master/create-seed-job.groovy
 [description-setter]: https://wiki.jenkins-ci.org/display/JENKINS/Description+Setter+Plugin
+[dind]: https://hub.docker.com/r/dockerswarm/dind/
+[docker-rm]: https://docs.docker.com/reference/commandline/rm/
+[dsl-dir]: https://github.com/thomasleveil/docker-jenkins-dsl-ready/tree/master/dsl
+[dsl-job]: https://github.com/jenkinsci/job-dsl-plugin/wiki/Job-reference
+[dsl-tutorial]: https://github.com/jenkinsci/job-dsl-plugin/wiki/Tutorial---Using-the-Jenkins-Job-DSL
 [email-ext]: https://wiki.jenkins-ci.org/display/JENKINS/Email-ext+plugin
 [ghprb]: https://wiki.jenkins-ci.org/display/JENKINS/GitHub+pull+request+builder+plugin
+[git]: https://wiki.jenkins-ci.org/display/JENKINS/Git+Plugin
+[github]: https://wiki.jenkins-ci.org/display/JENKINS/GitHub+Plugin
 [gradle]: https://wiki.jenkins-ci.org/display/JENKINS/Gradle+Plugin
+[groovy-postbuild]: https://wiki.jenkins-ci.org/display/JENKINS/Groovy+Postbuild+Plugin#GroovyPostbuildPlugin-Exampleusages
+[init.groovy.d]: https://wiki.jenkins-ci.org/pages/viewpage.action?pageId=70877249
+[job-dsl]: https://wiki.jenkins-ci.org/display/JENKINS/Job+DSL+Plugin
+[official-jenkins]: https://github.com/jenkinsci/docker/blob/master/README.md
 [parameterized-trigger]: https://wiki.jenkins-ci.org/display/JENKINS/Parameterized+Trigger+Plugin
 [publish-over-ssh]: https://wiki.jenkins-ci.org/display/JENKINS/Publish+Over+SSH+Plugin
+[rebuild]: https://wiki.jenkins-ci.org/display/JENKINS/Rebuild+Plugin
+[sidebar-link]: https://wiki.jenkins-ci.org/display/JENKINS/Sidebar-Link+Plugin
 [warnings]:  https://wiki.jenkins-ci.org/display/JENKINS/Warnings+Plugin
 [ws-cleanup]: https://wiki.jenkins-ci.org/display/JENKINS/Workspace+Cleanup+Plugin
