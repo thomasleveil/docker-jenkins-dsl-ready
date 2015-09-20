@@ -13,7 +13,7 @@ load lib/test_helpers
         -v $BATS_TEST_DIRNAME/resources/dsl-job-using-sudo-docker/:/usr/share/jenkins/ref/jobs/SeedJob/workspace/:ro \
         -P \
         -v /var/run/docker.sock:/var/run/docker.sock \
-        -v $(which docker):/usr/bin/docker:ro \
+        $DOCKER_OPTS_ENABLING_DOCKER \
         tomdesinto/jenkins-dsl-ready
 }
 

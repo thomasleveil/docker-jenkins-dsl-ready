@@ -33,7 +33,7 @@ load lib/test_helpers
     docker run -d --name $SUT_CONTAINER \
         --link $DIND_CONTAINER:dind \
         -e DOCKER_HOST=tcp://dind:2375 \
-        -v $(which docker):/usr/bin/docker:ro \
+        $DOCKER_OPTS_ENABLING_DOCKER \
         -v $BATS_TEST_DIRNAME/resources/dsl-job-using-docker/:/usr/share/jenkins/ref/jobs/SeedJob/workspace/:ro \
         -P \
         tomdesinto/jenkins-dsl-ready

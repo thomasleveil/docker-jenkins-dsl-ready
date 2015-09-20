@@ -10,6 +10,9 @@ DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 load ${DIR}/jenkins_helpers.bash
 load ${DIR}/docker_helpers.bash
 
+# use those options to enable the use of the docker command from a container
+DOCKER_OPTS_ENABLING_DOCKER="-v $(which docker):/usr/bin/docker:ro"
+
 
 function assert {
     local expected_output=$1
