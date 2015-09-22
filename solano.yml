@@ -11,5 +11,6 @@ hooks:
     sudo docker pull jenkins
     sudo docker build -t tomdesinto/jenkins-dsl-ready . 
 tests:
-  - python -m doctest build/resolve_jenkins_plugins_dependencies.py
-  - sudo bats tests
+  - |
+    python -m doctest build/resolve_jenkins_plugins_dependencies.py
+    sudo bats tests
