@@ -1,7 +1,10 @@
 machine:
+  pre:
+    # install docker 1.7.1
+    - sudo curl -L -o /usr/bin/docker 'https://s3-external-1.amazonaws.com/circle-downloads/docker-1.7.1-circleci'; sudo chmod 0755 /usr/bin/docker; true
   services:
     - docker
-    
+
 dependencies:
   override:
     - sudo add-apt-repository ppa:duggan/bats --yes
@@ -10,7 +13,7 @@ dependencies:
     - docker pull erikxiv/subversion:latest
     - docker pull yesops/git:latest
     - docker pull jenkins:latest
-    
+
 test:
   override:
     - env
