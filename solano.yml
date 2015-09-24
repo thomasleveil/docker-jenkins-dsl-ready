@@ -5,9 +5,11 @@ python:
   python_version: 2.7
 hooks:
   pre_setup: |
+    set -ex
     sudo add-apt-repository ppa:duggan/bats --yes
     sudo apt-get update -qq
     sudo apt-get install -qq bats
+    sudo wget https://github.com/stedolan/jq/releases/download/jq-1.5/jq-linux64 -O /usr/local/bin/jq && sudo chmod +x /usr/local/bin/jq
     sudo docker pull jenkins
     sudo docker build -t tomdesinto/jenkins-dsl-ready . 
 tests:
