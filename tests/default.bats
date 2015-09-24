@@ -9,7 +9,7 @@ load lib/test_helpers
 }
 
 @test "SUT container created" {
-    docker run -d --name $SUT_CONTAINER -P tomdesinto/jenkins-dsl-ready
+    docker run -d --name $SUT_CONTAINER -P $SUT_IMAGE
 }
 
 ################################################################################

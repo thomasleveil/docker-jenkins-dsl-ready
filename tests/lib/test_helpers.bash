@@ -1,3 +1,4 @@
+SUT_IMAGE=$SUT_IMAGE:bats
 
 # check dependencies
 (

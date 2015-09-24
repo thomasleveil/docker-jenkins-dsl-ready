@@ -31,7 +31,7 @@ load lib/test_helpers
     docker run -d --name $SUT_CONTAINER -P \
         --link $GIT_CONTAINER:gitserver \
         -e SEEDJOB_GIT=git://gitserver/data \
-        tomdesinto/jenkins-dsl-ready
+        $SUT_IMAGE
 }
 
 ################################################################################

@@ -23,7 +23,7 @@ load lib/test_helpers
     docker run -d --name $SUT_CONTAINER -P \
         --link $SVN_CONTAINER:svnserver \
         -e SEEDJOB_SVN=svn://svnserver/repos \
-        tomdesinto/jenkins-dsl-ready
+        $SUT_IMAGE
 }
 
 ################################################################################

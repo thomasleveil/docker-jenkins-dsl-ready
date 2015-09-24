@@ -18,5 +18,5 @@ test:
   override:
     - env
     - python -m doctest build/resolve_jenkins_plugins_dependencies.py
-    - docker build -t tomdesinto/jenkins-dsl-ready .
+    - docker build -t tomdesinto/jenkins-dsl-ready:bats .
     - bats tests

@@ -14,7 +14,7 @@ load lib/test_helpers
         -P \
         -v /var/run/docker.sock:/var/run/docker.sock \
         $DOCKER_OPTS_ENABLING_DOCKER \
-        tomdesinto/jenkins-dsl-ready
+        $SUT_IMAGE
 }
 
 ################################################################################
