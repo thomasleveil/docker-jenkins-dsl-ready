@@ -154,7 +154,7 @@ From now on, you can call directly the `docker` command within Jenkins jobs.
 If docker fails with error `Error response from daemon: client is newer than server (client API version: 1.20, server API version: 1.19)`, or similar, then
 it means the version of the Docker client from the jenkins-dsl-ready image is newer than the Docker engine from the dind image. Refer to the _note_ above to start a dind container having the right version of docker.
 
-If docker fails with error `docker: error while loading shared libraries: libapparmor.so.1: cannot open shared object file: No such file or directory`, then you need to mount another volume on your container to enable the docker process to use the appArmor shared libraries. Depending on your system, the exact location of the librairies might differ from the following example: `-v /usr/lib/x86_64-linux-gnu/libapparmor.so.1.1.0:/usr/lib/x86_64-linux-gnu/libapparmor.so.1`
+If docker fails with error `docker: error while loading shared libraries: libapparmor.so.1: cannot open shared object file: No such file or directory`, then you need to mount another volume on your container to enable the docker process to use the appArmor shared libraries. Depending on your system, the exact location of the librairies might differ from the following example: `-v /usr/lib/x86_64-linux-gnu/libapparmor.so.1.1.0:/usr/lib/x86_64-linux-gnu/libapparmor.so.1`. More info at [https://github.com/SvenDowideit/dockerfiles/issues/17](https://github.com/SvenDowideit/dockerfiles/issues/17).
 
 
 DSL syntax
