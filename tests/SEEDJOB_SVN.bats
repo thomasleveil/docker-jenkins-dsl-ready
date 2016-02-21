@@ -14,8 +14,8 @@ load lib/test_helpers
     docker run -d --name $SVN_CONTAINER erikxiv/subversion
     sleep 2
     docker run --link $SVN_CONTAINER:svnserver erikxiv/subversion bash -c "
-        echo \"job('job-from-svn') {}\" > job-from-svn.groovy
-        svn import job-from-svn.groovy svn://svnserver/repos/job-from-svn.groovy -m 'first import'
+        echo \"job('job_from_svn') {}\" > job_from_svn.groovy
+        svn import job_from_svn.groovy svn://svnserver/repos/job_from_svn.groovy -m 'first import'
     "
 }
 
@@ -51,6 +51,6 @@ load lib/test_helpers
 
 ################################################################################
 
-@test "job 'job-from-svn' exists" {
-    retry 15 1 jenkins_url /job/job-from-svn/
+@test "job 'job_from_svn' exists" {
+    retry 15 1 jenkins_url /job/job_from_svn/
 }

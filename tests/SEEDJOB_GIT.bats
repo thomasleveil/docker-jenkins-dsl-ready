@@ -20,8 +20,8 @@ load lib/test_helpers
         git config --global user.name 'Your Name'
         git clone git://gitserver/data
         cd data
-        echo \"job('job-from-git') {}\" > job-from-git.groovy
-        git add job-from-git.groovy
+        echo \"job('job_from_git') {}\" > job_from_git.groovy
+        git add job_from_git.groovy
         git commit -m 'first import'
         git push origin master
     "
@@ -59,6 +59,6 @@ load lib/test_helpers
 
 ################################################################################
 
-@test "job 'job-from-git' exists" {
-    retry 15 1 jenkins_url /job/job-from-git/
+@test "job 'job_from_git' exists" {
+    retry 15 1 jenkins_url /job/job_from_git/
 }
