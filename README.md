@@ -199,7 +199,7 @@ Your jobs might depend on software which is not available in this image. You can
 [docker-rm]: https://docs.docker.com/reference/commandline/rm/
 [docker-workflow]: https://wiki.jenkins-ci.org/display/JENKINS/CloudBees+Docker+Workflow+Plugin
 [dsl-dir]: https://github.com/thomasleveil/docker-jenkins-dsl-ready/tree/master/dsl
-[dsl-job]: https://github.com/jenkinsci/job-dsl-plugin/wiki/Job-reference
+[dsl-job]: https://jenkinsci.github.io/job-dsl-plugin/
 [dsl-tutorial]: https://github.com/jenkinsci/job-dsl-plugin/wiki/Tutorial---Using-the-Jenkins-Job-DSL
 [email-ext]: https://wiki.jenkins-ci.org/display/JENKINS/Email-ext+plugin
 [ghprb]: https://wiki.jenkins-ci.org/display/JENKINS/GitHub+pull+request+builder+plugin
