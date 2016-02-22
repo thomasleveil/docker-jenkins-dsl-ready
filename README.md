@@ -41,7 +41,7 @@ Included plugins
 ----------------
 
 - [Job DSL][job-dsl]
-- [Workflow][workflow-aggregator]
+- [Pipeline][workflow-aggregator]
 - [CloudBees Docker Workflow][docker-workflow]
 - [Git][git]
 - [GitHub][github]
@@ -215,5 +215,5 @@ Your jobs might depend on software which is not available in this image. You can
 [rebuild]: https://wiki.jenkins-ci.org/display/JENKINS/Rebuild+Plugin
 [sidebar-link]: https://wiki.jenkins-ci.org/display/JENKINS/Sidebar-Link+Plugin
 [warnings]:  https://wiki.jenkins-ci.org/display/JENKINS/Warnings+Plugin
-[workflow-aggregator]: https://wiki.jenkins-ci.org/display/JENKINS/Workflow+Plugin
+[workflow-aggregator]: https://wiki.jenkins-ci.org/display/JENKINS/Pipeline+Plugin
 [ws-cleanup]: https://wiki.jenkins-ci.org/display/JENKINS/Workspace+Cleanup+Plugin
