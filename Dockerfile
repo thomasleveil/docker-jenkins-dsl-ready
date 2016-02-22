@@ -44,6 +44,6 @@ COPY dsl/*.groovy /usr/share/jenkins/ref/jobs/SeedJob/workspace/
 
 
 ###############################################################################
-RUN chown jenkins: /usr/share/jenkins/ -R
+RUN chown jenkins: $(find /usr/share/jenkins/ref -type f -name '*.groovy')
 USER jenkins
 ENTRYPOINT ["/opt/bin/entrypoint.sh"]
