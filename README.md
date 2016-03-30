@@ -42,7 +42,7 @@ Included plugins
 
 - [Job DSL][job-dsl]
 - [Pipeline][workflow-aggregator]
-- [CloudBees Docker Workflow][docker-workflow]
+- [CloudBees Docker Pipeline][docker-workflow]
 - [Git][git]
 - [GitHub][github]
 - [GitHub pull request builder][ghprb]
@@ -193,11 +193,11 @@ Your jobs might depend on software which is not available in this image. You can
 [cobertura]: https://wiki.jenkins-ci.org/display/JENKINS/Cobertura+Plugin
 [config-file-provider]: https://wiki.jenkins-ci.org/display/JENKINS/Config+File+Provider+Plugin
 [copyartifact]: https://wiki.jenkins-ci.org/display/JENKINS/Copy+Artifact+Plugin
-[create-seed-job.groovy]: https://github.com/thomasleveil/docker-jenkins-dsl-ready/blob/master/create-seed-job.groovy
+[create-seed-job.groovy]: https://github.com/thomasleveil/docker-jenkins-dsl-ready/blob/master/build/create-seed-job.groovy
 [description-setter]: https://wiki.jenkins-ci.org/display/JENKINS/Description+Setter+Plugin
 [dind]: https://hub.docker.com/r/dockerswarm/dind/
 [docker-rm]: https://docs.docker.com/reference/commandline/rm/
-[docker-workflow]: https://wiki.jenkins-ci.org/display/JENKINS/CloudBees+Docker+Workflow+Plugin
+[docker-workflow]: https://wiki.jenkins-ci.org/display/JENKINS/CloudBees+Docker+Pipeline+Plugin
 [dsl-dir]: https://github.com/thomasleveil/docker-jenkins-dsl-ready/tree/master/dsl
 [dsl-job]: https://jenkinsci.github.io/job-dsl-plugin/
 [dsl-tutorial]: https://github.com/jenkinsci/job-dsl-plugin/wiki/Tutorial---Using-the-Jenkins-Job-DSL
@@ -207,7 +207,7 @@ Your jobs might depend on software which is not available in this image. You can
 [github]: https://wiki.jenkins-ci.org/display/JENKINS/GitHub+Plugin
 [gradle]: https://wiki.jenkins-ci.org/display/JENKINS/Gradle+Plugin
 [groovy-postbuild]: https://wiki.jenkins-ci.org/display/JENKINS/Groovy+Postbuild+Plugin#GroovyPostbuildPlugin-Exampleusages
-[init.groovy.d]: https://wiki.jenkins-ci.org/pages/viewpage.action?pageId=70877249
+[init.groovy.d]: https://wiki.jenkins-ci.org/display/JENKINS/Configuring+Jenkins+upon+start+up
 [job-dsl]: https://wiki.jenkins-ci.org/display/JENKINS/Job+DSL+Plugin
 [official-jenkins]: https://github.com/jenkinsci/docker/blob/master/README.md
 [parameterized-trigger]: https://wiki.jenkins-ci.org/display/JENKINS/Parameterized+Trigger+Plugin
