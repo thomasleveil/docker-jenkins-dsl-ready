@@ -4,4 +4,4 @@
 /opt/bin/update_jenkins_plugins.py
 
 # start Jenkins
-/bin/tini -- /usr/local/bin/jenkins.sh "$@"
+/sbin/tini -- /usr/local/bin/jenkins.sh "$@"
