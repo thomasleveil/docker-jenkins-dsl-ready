@@ -42,9 +42,11 @@ Included plugins
 ----------------
 
 - [Job DSL][job-dsl]
+- [Jenkins Configuration as Code (JCasC)][configuration-as-code]
 - [Pipeline][workflow-aggregator]
 - [CloudBees Docker Pipeline][docker-workflow]
 - [Git][git]
+- [Subversion (SVN)][subversion]
 - [GitHub][github]
 - [GitHub pull request builder][ghprb]
 - [Config File Provider][config-file-provider]
@@ -198,32 +200,34 @@ Your jobs might depend on software which is not available in this image. You can
     COPY dsl/*.groovy /usr/share/jenkins/ref/jobs/SeedJob/workspace/
 
 
-[ansicolor]: https://wiki.jenkins-ci.org/display/JENKINS/AnsiColor+Plugin
-[build-timeout]: https://wiki.jenkins-ci.org/display/JENKINS/Build-timeout+Plugin
-[cobertura]: https://wiki.jenkins-ci.org/display/JENKINS/Cobertura+Plugin
-[config-file-provider]: https://wiki.jenkins-ci.org/display/JENKINS/Config+File+Provider+Plugin
-[copyartifact]: https://wiki.jenkins-ci.org/display/JENKINS/Copy+Artifact+Plugin
+[ansicolor]: https://plugins.jenkins.io/ansicolor
+[build-timeout]: https://plugins.jenkins.io/build-timeout
+[cobertura]: https://plugins.jenkins.io/cobertura
+[config-file-provider]: https://plugins.jenkins.io/config-file-provider
+[configuration-as-code]: https://plugins.jenkins.io/configuration-as-code
+[copyartifact]: https://plugins.jenkins.io/copyartifact
 [create-seed-job.groovy]: https://github.com/thomasleveil/docker-jenkins-dsl-ready/blob/master/build/create-seed-job.groovy
-[description-setter]: https://wiki.jenkins-ci.org/display/JENKINS/Description+Setter+Plugin
+[description-setter]: https://plugins.jenkins.io/description-setter
 [dind]: https://hub.docker.com/r/dockerswarm/dind/
 [docker-rm]: https://docs.docker.com/reference/commandline/rm/
-[docker-workflow]: https://wiki.jenkins-ci.org/display/JENKINS/CloudBees+Docker+Pipeline+Plugin
+[docker-workflow]: https://plugins.jenkins.io/docker-workflow
 [dsl-dir]: https://github.com/thomasleveil/docker-jenkins-dsl-ready/tree/master/dsl
 [dsl-job]: https://jenkinsci.github.io/job-dsl-plugin/
 [dsl-tutorial]: https://github.com/jenkinsci/job-dsl-plugin/wiki/Tutorial---Using-the-Jenkins-Job-DSL
-[email-ext]: https://wiki.jenkins-ci.org/display/JENKINS/Email-ext+plugin
-[ghprb]: https://wiki.jenkins-ci.org/display/JENKINS/GitHub+pull+request+builder+plugin
-[git]: https://wiki.jenkins-ci.org/display/JENKINS/Git+Plugin
-[github]: https://wiki.jenkins-ci.org/display/JENKINS/GitHub+Plugin
-[gradle]: https://wiki.jenkins-ci.org/display/JENKINS/Gradle+Plugin
-[groovy-postbuild]: https://wiki.jenkins-ci.org/display/JENKINS/Groovy+Postbuild+Plugin#GroovyPostbuildPlugin-Exampleusages
-[init.groovy.d]: https://wiki.jenkins-ci.org/display/JENKINS/Configuring+Jenkins+upon+start+up
-[job-dsl]: https://wiki.jenkins-ci.org/display/JENKINS/Job+DSL+Plugin
+[email-ext]: https://plugins.jenkins.io/email-ext
+[ghprb]: https://plugins.jenkins.io/ghprb
+[git]: https://plugins.jenkins.io/git
+[github]: https://plugins.jenkins.io/github
+[gradle]: https://plugins.jenkins.io/gradle
+[groovy-postbuild]: https://plugins.jenkins.io/groovy-postbuild
+[init.groovy.d]: https://plugins.jenkins.io/init.groovy.d
+[job-dsl]: https://plugins.jenkins.io/job-dsl
 [official-jenkins]: https://github.com/jenkinsci/docker/blob/master/README.md
-[parameterized-trigger]: https://wiki.jenkins-ci.org/display/JENKINS/Parameterized+Trigger+Plugin
-[publish-over-ssh]: https://wiki.jenkins-ci.org/display/JENKINS/Publish+Over+SSH+Plugin
-[rebuild]: https://wiki.jenkins-ci.org/display/JENKINS/Rebuild+Plugin
-[sidebar-link]: https://wiki.jenkins-ci.org/display/JENKINS/Sidebar-Link+Plugin
-[warnings]:  https://wiki.jenkins-ci.org/display/JENKINS/Warnings+Plugin
-[workflow-aggregator]: https://wiki.jenkins-ci.org/display/JENKINS/Pipeline+Plugin
-[ws-cleanup]: https://wiki.jenkins-ci.org/display/JENKINS/Workspace+Cleanup+Plugin
+[parameterized-trigger]: https://plugins.jenkins.io/parameterized-trigger
+[publish-over-ssh]: https://plugins.jenkins.io/publish-over-ssh
+[rebuild]: https://plugins.jenkins.io/rebuild
+[sidebar-link]: https://plugins.jenkins.io/sidebar-link
+[subversion]: https://plugins.jenkins.io/subversion
+[warnings]:  https://plugins.jenkins.io/warnings
+[workflow-aggregator]: https://plugins.jenkins.io/workflow-aggregator
+[ws-cleanup]: https://plugins.jenkins.io/ws-cleanup
