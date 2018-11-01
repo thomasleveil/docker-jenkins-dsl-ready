@@ -31,6 +31,8 @@ RUN mkdir /usr/share/jenkins/ref/plugins \
 	| /opt/bin/resolve_jenkins_plugins_dependencies.py \
 	| /opt/bin/download_jenkins_plugins.py
 
+COPY ./JCasC ${JENKINS_HOME}/casc_configs
+ENV CASC_JENKINS_CONFIG=${JENKINS_HOME}/casc_configs
 
 ARG BUILD_DATE
 ARG VCS_REF

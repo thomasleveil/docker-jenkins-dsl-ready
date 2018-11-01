@@ -1,0 +1,4 @@
+jenkins:
+  mode: NORMAL
+  numExecutors: 2
+  slaveAgentPort: 50000

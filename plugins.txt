@@ -2,6 +2,7 @@ ansicolor
 build-timeout
 cobertura
 config-file-provider
+configuration-as-code
 copyartifact
 description-setter
 docker-workflow

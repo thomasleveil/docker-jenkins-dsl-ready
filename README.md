@@ -9,7 +9,7 @@ Jenkins DSL ready
 Goal: **automate** your Jenkins installation. Get **Jenkins and its jobs** ready with one docker command!
 
 This Jenkins image is based on top of the [official Jenkins image][official-jenkins] and as such provides all its features.
-Additionally, it comes with the **[Job DSL plugin][job-dsl] ready to use**.
+Additionally, it comes with the **[Job DSL][job-dsl] and [Jenkins Configuration as Code](https://github.com/jenkinsci/configuration-as-code-plugin) plugins ready to use**.
 
 
 tl;dr
@@ -66,6 +66,15 @@ Included plugins
 
 Usage
 -----
+
+### Jenkins Configuration as Code (JCasC)
+
+The [Jenkins Configuration as Code Plugin](https://github.com/jenkinsci/configuration-as-code-plugin) provides an convenient way to configure Jenkins and some plugins from simple yaml files.
+
+Provide those yaml files to the container with a volume mounted to the `/var/jenkins_home/casc_configs/` directory:
+
+    docker run -d -p 8080:8080 -v /my/JCasC/jenkins.yml:/var/jenkins_home/casc_configs/jenkins.yml tomdesinto/jenkins-dsl-ready
+
 
 ### Default DSL jobs
 
