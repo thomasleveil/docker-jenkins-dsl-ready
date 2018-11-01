@@ -11,11 +11,13 @@ load lib/test_helpers
 }
 
 @test "setup a Git server" {
-    docker run -d --name $GIT_CONTAINER -w /data --expose 9418 yesops/git bash -c "
-        git init --bare && git daemon --export-all --enable=receive-pack
+    docker run -d --name $GIT_CONTAINER -w /data --expose 9418 --entrypoint /bin/sh alpine/git -c "
+        apk --update --no-cache-dir add git-daemon
+        git init --bare
+        git daemon --export-all --enable=receive-pack
     "
-    sleep 2
-    docker run -t --link $GIT_CONTAINER:gitserver yesops/git bash -c "
+    sleep 5
+    retry 10 5 docker run --rm -t --link $GIT_CONTAINER:gitserver --entrypoint /bin/sh alpine/git -c "
         git config --global user.email 'you@example.com'
         git config --global user.name 'Your Name'
         git clone git://gitserver/data
