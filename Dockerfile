@@ -5,6 +5,7 @@ USER root
 # Install sudo to enpower jenkins (will be usefull for running docker in some cases)
 RUN apt-get update \
     && apt-get install -y sudo \
+		libltdl7 \
     && rm -rf /var/lib/apt/lists/* \
     && echo "jenkins ALL=NOPASSWD: ALL" >> /etc/sudoers
 
