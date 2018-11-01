@@ -1,6 +1,7 @@
-*
-!/build
-!/dsl
-!/plugins.txt
-!/JCasC
+# Ignore everything by default
+**
+!build
+!dsl
+!plugins.txt
+!JCasC
 !README.md
