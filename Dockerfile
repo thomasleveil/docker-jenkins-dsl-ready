@@ -31,9 +31,12 @@ RUN mkdir /usr/share/jenkins/ref/plugins \
 	| /opt/bin/resolve_jenkins_plugins_dependencies.py \
 	| /opt/bin/download_jenkins_plugins.py
 
+# Setup Jenkins Configuration as Code - see https://github.com/jenkinsci/configuration-as-code-plugin
 COPY ./JCasC ${JENKINS_HOME}/casc_configs
 ENV CASC_JENKINS_CONFIG=${JENKINS_HOME}/casc_configs
 
+
+# Docker labels
 ARG BUILD_DATE
 ARG VCS_REF
 
@@ -46,6 +49,7 @@ LABEL org.label-schema.name="Jenkins DSL ready" \
 	org.label-schema.vcs-ref=$VCS_REF \
 	org.label-schema.schema-version="1.0.0-rc1"
 COPY ./README.md /
+
 
 ###############################################################################
 ##                          customize below                                  ##
