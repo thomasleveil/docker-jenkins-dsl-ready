@@ -19,7 +19,7 @@ function jenkins_job_success {
     function get_building {
         curl -sS $url | jq '.building'
     }
-    retry 10 3 assert 'false' get_building
+    retry 10 5 assert 'false' get_building
 
     function get_result {
         curl -sS $url | jq '.result'
