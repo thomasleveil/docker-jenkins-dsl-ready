@@ -31,6 +31,20 @@ RUN mkdir /usr/share/jenkins/ref/plugins \
 	| /opt/bin/resolve_jenkins_plugins_dependencies.py \
 	| /opt/bin/download_jenkins_plugins.py
 
+
+ARG BUILD_DATE
+ARG VCS_REF
+
+LABEL org.label-schema.name="Jenkins DSL ready" \
+	org.label-schema.description="Jenkins ready to go for running DSL jobs" \
+	org.label-schema.usage="/README.md" \
+	org.label-schema.url="https://github.com/thomasleveil/docker-jenkins-dsl-ready" \
+	org.label-schema.vcs-url="https://github.com/thomasleveil/docker-jenkins-dsl-ready.git" \
+	org.label-schema.build-date=$BUILD_DATE \
+	org.label-schema.vcs-ref=$VCS_REF \
+	org.label-schema.schema-version="1.0.0-rc1"
+COPY ./README.md /
+
 ###############################################################################
 ##                          customize below                                  ##
 ###############################################################################
