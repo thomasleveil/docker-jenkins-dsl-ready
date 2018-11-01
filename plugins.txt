@@ -17,6 +17,7 @@ parameterized-trigger
 publish-over-ssh
 rebuild
 sidebar-link
+subversion
 warnings
 workflow-aggregator
 ws-cleanup
