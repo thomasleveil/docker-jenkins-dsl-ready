@@ -12,7 +12,7 @@ load lib/test_helpers
 
 @test "setup a Git server" {
     docker run -d --name $GIT_CONTAINER -w /data --expose 9418 --entrypoint /bin/sh alpine/git -c "
-        apk --update --no-cache-dir add git-daemon
+        apk --no-cache add git-daemon
         git init --bare
         git daemon --export-all --enable=receive-pack
     "

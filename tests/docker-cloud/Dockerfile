@@ -1,6 +1,6 @@
 FROM docker:stable-dind
 
-RUN apk --update --no-cache-dir add \
+RUN apk --no-cache add \
         bash \
         bats \
         curl \
