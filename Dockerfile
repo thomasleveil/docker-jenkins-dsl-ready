@@ -2,12 +2,12 @@ FROM jenkins/jenkins:lts
 
 USER root
 
-# Install sudo to enpower jenkins (will be usefull for running docker in some cases)
-RUN apt-get update \
-    && apt-get install -y sudo \
+RUN apt-get update && apt-get install -y \
 		libltdl7 \
-    && rm -rf /var/lib/apt/lists/* \
-    && echo "jenkins ALL=NOPASSWD: ALL" >> /etc/sudoers
+		sudo \
+    && rm -rf /var/lib/apt/lists/*
+# Install sudo to enpower jenkins (will be usefull for running docker in some cases)
+RUN echo "jenkins ALL=NOPASSWD: ALL" >> /etc/sudoers
 
 # a few helper scripts
 RUN mkdir /opt/bin

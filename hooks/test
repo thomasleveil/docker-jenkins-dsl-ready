@@ -1,0 +1,3 @@
+#!/bin/bash
+
+SUT_IMAGE=${IMAGE_NAME} bats tests/

@@ -1,0 +1,10 @@
+#!/bin/bash
+
+uname -a
+env
+
+apt-get update
+apt-get -y install \
+    bats \
+    curl \
+    jq
