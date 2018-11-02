@@ -1,3 +1,7 @@
+# see 
+#   https://docs.docker.com/docker-cloud/builds/automated-testing/
+#   https://docs.docker.com/docker-cloud/builds/advanced/#environment-variables-for-building-and-testing
+
 version: "3.6"
 
 services:
@@ -8,8 +12,10 @@ services:
     working_dir: /src
     volumes:
       - .:/src:ro
+    environment:
+      - IMAGE_NAME
     command: bash -c "
         dockerd-entrypoint.sh >/dev/null 2>&1 &
-        /run-tests.sh
+        SUT_IMAGE=${IMAGE_NAME} bats tests/
       "
 

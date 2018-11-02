@@ -1,4 +1,4 @@
-SUT_IMAGE=tomdesinto/jenkins-dsl-ready:bats
+SUT_IMAGE="${SUT_IMAGE:-tomdesinto/jenkins-dsl-ready:bats}"
 
 # check dependencies
 (
