@@ -66,6 +66,9 @@ Included plugins
 - [Workspace Cleanup][ws-cleanup]
 
 
+_See the full list of plugins in the [plugins.txt](plugins.txt) file._
+
+
 Usage
 -----
 
@@ -177,14 +180,29 @@ Plugin, you should start with the [tutorial][dsl-tutorial].
 [Example of DSL script](https://github.com/thomasleveil/docker-jenkins-dsl-ready/blob/master/dsl/example_job_1.groovy)
 
 
-Customizing the image
----------------------
+Customizing the Docker image
+----------------------------
 
-### Other default DSL files
+You can build your own version of the Docker image to custimize it.
+
+
+### Add different default DSL files
 
 You can add default DSL scripts to the [`dsl/`][dsl-dir] directory. When you build the docker image, those scripts will be copied to the _SeedJob_ workspace when the container will be run.
 
-### Add software
+
+
+### Add more Jenkins plugins
+
+Just edit the [plugins.txt](plugins.txt) file. This file must contain one Jenkins plugin id per line. You can find the plugins' id on the official [Jenkins plugins website](https://plugins.jenkins.io/).
+
+For instance, to add the [Green Balls](https://plugins.jenkins.io/greenballs) plugin, add a line with `greenballs`.
+
+You can pin a specific version for plugins with this syntax: `greenballs:1.15`
+
+
+
+### Add software and dependencies
 
 Your jobs might depend on software which is not available in this image. You can build your own image with additional software by adding the commands to install them after the _customize below_ section.
 
