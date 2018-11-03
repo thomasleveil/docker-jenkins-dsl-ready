@@ -42,6 +42,6 @@ The test suite is built with [pytest](https://docs.pytest.org/) and the help of 
 [custom pytest plugin](plugins/pytest_docker.py) which introduces the following behaviors:
 
 - all test module files MUST have a docker-compose yaml file with the same name (but for the `.yml` extension)
-- all docker compose files must define a service named `jenkins` ()which runs a container from the docker image to test)
-- when a test module is run, pytest use the docker compose file to start docker containers
-- when all tests from a test module are executed, docker compose stops and remove the containers that were created for that module
+- all docker compose files MUST define a service named `jenkins` _(which runs a container from the docker image to test)_
+- when a test module is run, pytest uses the docker compose file to start docker containers
+- when all tests from a test module are done, the containers that were created for that module are stopped

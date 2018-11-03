@@ -1,6 +1,8 @@
 import pytest
 from utils import wait_until, job_not_building
 
+pytestmark = pytest.mark.incremental
+
 
 def test_job_SeedJob_exists(jenkins):
     r = jenkins.get("/job/SeedJob/")

@@ -6,13 +6,14 @@ services:
 
   sut:
     build: 
-      context: .
-      dockerfile: Dockerfile-test
-    net: host
+      context: tests
+      dockerfile: Dockerfile-tests
+    network_mode: host
     volumes:
-      - ./:/src
-    working_dir: /src
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./:${PWD}:ro
+    working_dir: ${PWD}
     privileged: true
     environment:
-      IMAGE_NAME: this
+      IMAGE_NAME: ${IMAGE_NAME}  # in Docker Cloud Autotest, ``IMAGE_NAME`` is the name given to the built docker image
     command: pytest -v

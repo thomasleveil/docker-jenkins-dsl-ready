@@ -1,4 +1,7 @@
+import os
+
 import pytest
+from _pytest._code.code import ReprExceptionInfo
 from utils import is_responsive, SessionWithUrlBase
 
 pytest_plugins = "plugins.pytest_docker"
@@ -17,3 +20,26 @@ def jenkins(request, docker_services):
     session = SessionWithUrlBase(url_base=url)
     return session
 
+
+###############################################################################
+#
+# Py.test hooks
+#
+###############################################################################
+
+def pytest_report_header(config):
+    return "Docker image being tested: %s" % os.environ.get('IMAGE_NAME')
+
+
+# Py.test `incremental` marker, see https://docs.pytest.org/en/latest/example/simple.html#incremental-testing-test-steps
+def pytest_runtest_makereport(item, call):
+    if "incremental" in item.keywords:
+        if call.excinfo is not None:
+            parent = item.parent
+            parent._previousfailed = item
+
+
+def pytest_runtest_setup(item):
+    previousfailed = getattr(item.parent, "_previousfailed", None)
+    if previousfailed is not None:
+        pytest.xfail("previous test failed (%s)" % previousfailed.name)

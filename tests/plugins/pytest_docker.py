@@ -5,6 +5,7 @@ import re
 import subprocess
 import time
 import timeit
+import uuid
 
 import attr
 import pytest
@@ -119,6 +120,7 @@ def str_to_list(arg):
 
 @attr.s(frozen=True)
 class DockerComposeExecutor(object):
+    _compose_dir = attr.ib()
     _compose_files = attr.ib(convert=str_to_list)
     _compose_project_name = attr.ib()
 
@@ -126,7 +128,8 @@ class DockerComposeExecutor(object):
         command = "docker-compose"
         for compose_file in self._compose_files:
             command += ' -f "{}"'.format(compose_file)
-        command += ' -p "{}" {}'.format(self._compose_project_name, subcommand)
+        command += ' --project-directory "{}" --project-name "{}" {}'.format(self._compose_dir,
+                                                                             self._compose_project_name, subcommand)
         return execute(command)
 
 
@@ -150,22 +153,24 @@ def docker_compose_file(request, pytestconfig):
 
 
 @pytest.fixture(scope='module')
-def docker_compose_project_name():
-    """ Generate a project name using the current process' PID.
+def docker_compose_project_name(request):
+    """ Generate a project name using the current test module's name.
 
     Override this fixture in your tests if you need a particular project name.
     """
-    return "pytest{}".format(os.getpid())
+    return request.module.__name__
 
 
 @pytest.fixture(scope='module')
 def docker_services(
-        docker_compose_file, docker_compose_project_name
+        request, docker_compose_file, docker_compose_project_name
 ):
     """Ensure all Docker-based services are up and running."""
+    test_module_dir = os.path.dirname(request.module.__file__)
+
     docker = DockerExecutor()
     docker_compose = DockerComposeExecutor(
-        docker_compose_file, docker_compose_project_name
+        test_module_dir, docker_compose_file, docker_compose_project_name
     )
 
     # Spawn containers.
@@ -175,7 +180,7 @@ def docker_services(
     yield Services(docker, docker_compose)
 
     # Clean up.
-    docker_compose.execute('down -v')
+    docker_compose.execute('stop')
 
 
 __all__ = (
