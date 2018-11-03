@@ -5,6 +5,7 @@ services:
     build: 
       context: .
       dockerfile: Dockerfile-test
+    net: host
     volumes:
       - ./:/src
     working_dir: /src
