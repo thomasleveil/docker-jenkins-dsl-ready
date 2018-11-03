@@ -118,7 +118,6 @@ In the end, the command to run such a container is:
     docker run -d \
         -u root \
         -v /var/run/docker.sock:/var/run/docker.sock \
-        -v $(which docker):/usr/bin/docker:ro \
         -p 8080:8080 \
         --name jenkins \
         tomdesinto/jenkins-dsl-ready
@@ -132,7 +131,6 @@ Same as method 2, but we don't run Jenkins as _root_. In this case the Jenkins j
 
     docker run -d \
         -v /var/run/docker.sock:/var/run/docker.sock \
-        -v $(which docker):/usr/bin/docker:ro \
         -p 8080:8080 \
         --name jenkins \
         tomdesinto/jenkins-dsl-ready
@@ -154,7 +152,6 @@ Using the official [docker:dind][dind] image, you can start a container which ru
 You would then start the jenkins-dsl-ready container with:
 
     docker run -d \
-        -v $(which docker):/usr/bin/docker:ro \
         -p 8080:8080 \
         --link dind:dind \
         -e DOCKER_HOST=tcp://dind:2375 \
