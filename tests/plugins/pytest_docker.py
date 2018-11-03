@@ -154,7 +154,7 @@ def docker_services(
     )
 
     # Spawn containers.
-    docker_compose.execute('up --build -d')
+    docker_compose.execute('up --build --force-recreate -d')
 
     # Let test(s) run.
     yield Services(docker, docker_compose)

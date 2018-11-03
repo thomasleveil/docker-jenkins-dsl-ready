@@ -63,7 +63,7 @@ class JenkinsClient(requests.Session):
 
     def assert_job_exists(self, job):
         r = self.get("/job/{job_name}/".format(job_name=job))
-        assert 200 == r.status_code
+        assert 200 == r.status_code, r.status_code
 
     def start_build(self, job, timeout=60.0):
         r = self.post('/job/%s/build' % job)
@@ -73,13 +73,16 @@ class JenkinsClient(requests.Session):
     def wait_for_build_to_finish(self, job, timeout=60.0):
         wait_until(timeout=timeout, pause=0.5, check=lambda: job_not_building(self, job))
 
-    def assert_build_exists(self, job):
-        r = self.get("/job/%s/1/" % job)
-        assert 200 == r.status_code
+    def assert_build_exists(self, job, timeout=60.0):
+        try:
+            wait_until(timeout=timeout, pause=0.5, check=lambda: is_responsive("%s/job/%s/1/" % (self.url_base, job)))
+        except Timeout:
+            r = self.get("/job/{job_name}/1/".format(job_name=job))
+            assert 200 == r.status_code, r.status_code
 
     def assert_build_succeeded(self, job):
         r = self.get("/job/%s/1/api/json" % job)
-        assert 200 == r.status_code
+        assert 200 == r.status_code, r.status_code
         if r.json()['result'] == 'FAILURE':
             r = self.get("/job/%s/1/logText/progressiveText" % job)
             pytest.fail("Job %s failed : \n\n%s\n\n" % (job, r.text))
