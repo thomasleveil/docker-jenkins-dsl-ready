@@ -1,0 +1,4 @@
+jenkins:
+  image: ${IMAGE_NAME}
+  ports:
+    - 8080

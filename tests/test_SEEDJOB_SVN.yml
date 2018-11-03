@@ -1,0 +1,14 @@
+version: "3.5"
+services:
+
+  svnserver:
+    build: fixtures/svn
+
+  jenkins:
+    image: ${IMAGE_NAME}
+    ports:
+      - 8080
+    depends_on:
+      - svnserver
+    environment:
+      SEEDJOB_SVN: svn://svnserver/repos

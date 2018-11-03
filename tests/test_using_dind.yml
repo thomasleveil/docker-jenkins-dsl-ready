@@ -1,0 +1,18 @@
+version: "3.5"
+services:
+
+  dind:
+    image: docker:stable-dind
+    privileged: true
+
+  jenkins:
+    image: ${IMAGE_NAME}
+    ports:
+      - 8080
+    depends_on:
+      - dind
+    environment:
+      DOCKER_HOST: tcp://dind:2375
+    volumes:
+      - ./fixtures/using-docker/:/usr/share/jenkins/ref/jobs/SeedJob/workspace/:ro
+    
