@@ -15,5 +15,5 @@ services:
     working_dir: ${PWD}
     privileged: true
     environment:
-      IMAGE_NAME: ${IMAGE_NAME}  # in Docker Cloud Autotest, ``IMAGE_NAME`` is the name given to the built docker image
-    command: pytest -v
+      IMAGE_NAME:  # in Docker Cloud Autotest, ``IMAGE_NAME`` is the name given to the built docker image
+    command: python3 -m pytest -v

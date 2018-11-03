@@ -2,7 +2,7 @@
 # to run the test suite.
 
 FROM docker:stable
-RUN apk --no-cache add git python py-pip
-RUN pip install docker-compose
+RUN apk --no-cache add git python3 py3-pip
+RUN pip3 install docker-compose
 COPY ./requirements.txt /
-RUN pip install -r /requirements.txt
+RUN pip3 install -r /requirements.txt
