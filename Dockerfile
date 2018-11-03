@@ -37,6 +37,11 @@ COPY ./JCasC ${JENKINS_HOME}/casc_configs
 ENV CASC_JENKINS_CONFIG=${JENKINS_HOME}/casc_configs
 
 
+# Install the docker client
+COPY --from=docker:stable /usr/local/bin/docker /usr/local/bin/docker
+RUN chmod +x /usr/local/bin/docker
+
+
 # Docker labels
 ARG BUILD_DATE
 ARG VCS_REF
