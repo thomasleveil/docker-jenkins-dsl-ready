@@ -43,3 +43,14 @@ def pytest_runtest_setup(item):
     previousfailed = getattr(item.parent, "_previousfailed", None)
     if previousfailed is not None:
         pytest.xfail("previous test failed (%s)" % previousfailed.name)
+
+
+###############################################################################
+#
+# Check requirements
+#
+###############################################################################
+
+if 'IMAGE_NAME' not in os.environ or os.environ['IMAGE_NAME'].strip() == '':
+    pytest.exit(
+        "The `IMAGE_NAME` environment variable is not set. It must be set with the name of the Jenkins Docker image to test")
