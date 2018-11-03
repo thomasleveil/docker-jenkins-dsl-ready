@@ -3,9 +3,6 @@ import json
 import os
 import re
 import subprocess
-import time
-import timeit
-import uuid
 
 import attr
 import pytest
@@ -93,23 +90,6 @@ class Services(object):
         self._services.setdefault(service, {})['_ip'] = ip_address
 
         return ip_address
-
-    @staticmethod
-    def wait_until_responsive(check, timeout, pause,
-                              clock=timeit.default_timer):
-        """Wait until a service is responsive."""
-
-        ref = clock()
-        now = ref
-        while (now - ref) < timeout:
-            if check():
-                return
-            time.sleep(pause)
-            now = clock()
-
-        raise Exception(
-            'Timeout reached while waiting on service!'
-        )
 
 
 def str_to_list(arg):

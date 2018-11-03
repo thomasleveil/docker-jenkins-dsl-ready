@@ -1,3 +1,4 @@
+import pytest
 import requests
 from requests.exceptions import ConnectionError, Timeout
 import timeit
@@ -20,12 +21,12 @@ def wait_until(check, timeout, pause, clock=timeit.default_timer):
     )
 
 
-def job_not_building(session, job):
+def job_not_building(jenkins: 'JenkinsClient', job):
     """
     check a jenkins job is not currently building
     """
     url = "/job/{job}/1/api/json".format(job=job)
-    r = session.get(url)
+    r = jenkins.get(url)
     assert 200 == r.status_code, "%s. %r" % (url, r)
     return r.json()['building'] != True
 
@@ -40,13 +41,13 @@ def is_responsive(url):
         return False
 
 
-
-class SessionWithUrlBase(requests.Session):
+class JenkinsClient(requests.Session):
     """
     https://stackoverflow.com/a/43882437/107049
     """
+
     def __init__(self, url_base=None, *args, **kwargs):
-        super(SessionWithUrlBase, self).__init__(*args, **kwargs)
+        super(JenkinsClient, self).__init__(*args, **kwargs)
         self.url_base = url_base
 
     def request(self, method, url, **kwargs):
@@ -55,4 +56,31 @@ class SessionWithUrlBase(requests.Session):
         # take a look at urllib.parse.urljoin instead.
         modified_url = self.url_base + url
 
-        return super(SessionWithUrlBase, self).request(method, modified_url, **kwargs)
+        return super(JenkinsClient, self).request(method, modified_url, **kwargs)
+
+    def wait_for_jenkins_to_be_ready(self):
+        wait_until(timeout=600.0, pause=0.5, check=lambda: is_responsive(self.url_base))
+
+    def assert_job_exists(self, job):
+        r = self.get("/job/{job_name}/".format(job_name=job))
+        assert 200 == r.status_code
+
+    def start_build(self, job, timeout=60.0):
+        r = self.post('/job/%s/build' % job)
+        assert 201 == r.status_code, "Failed to start a build for job %s" % job
+        wait_until(timeout=timeout, pause=0.5, check=lambda: self.get("/job/%s/1/" % job).status_code == 200)
+
+    def wait_for_build_to_finish(self, job, timeout=60.0):
+        wait_until(timeout=timeout, pause=0.5, check=lambda: job_not_building(self, job))
+
+    def assert_build_exists(self, job):
+        r = self.get("/job/%s/1/" % job)
+        assert 200 == r.status_code
+
+    def assert_build_succeeded(self, job):
+        r = self.get("/job/%s/1/api/json" % job)
+        assert 200 == r.status_code
+        if r.json()['result'] == 'FAILURE':
+            r = self.get("/job/%s/1/logText/progressiveText" % job)
+            pytest.fail("Job %s failed : \n\n%s\n\n" % (job, r.text))
+        assert 'SUCCESS' == r.json()['result']

@@ -1,24 +1,18 @@
 import os
 
 import pytest
-from _pytest._code.code import ReprExceptionInfo
-from utils import is_responsive, SessionWithUrlBase
+from utils import JenkinsClient
 
 pytest_plugins = "plugins.pytest_docker"
 
 
 @pytest.fixture(scope="module")
-def jenkins(request, docker_services):
+def jenkins(docker_services) -> JenkinsClient:
     """Ensure that a jenkins container is up and responsive."""
-
     jenkins_container_ip = docker_services.ip_for('jenkins')
-    url = """http://{ip}:8080""".format(ip=jenkins_container_ip)
-    docker_services.wait_until_responsive(
-        timeout=600.0, pause=0.5,
-        check=lambda: is_responsive(url)
-    )
-    session = SessionWithUrlBase(url_base=url)
-    return session
+    jenkins_client = JenkinsClient(url_base="http://{ip}:8080".format(ip=jenkins_container_ip))
+    jenkins_client.wait_for_jenkins_to_be_ready()
+    return jenkins_client
 
 
 ###############################################################################
