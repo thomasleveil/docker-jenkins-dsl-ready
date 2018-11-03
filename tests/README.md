@@ -1,6 +1,11 @@
 TESTS
 =====
 
+This test suite is meant to test that the produced docker image is able to start and that
+Jenkins behaves as expected.
+
+The jenkins image to test must be defined with the `IMAGE_NAME` environment variable.
+
 tl;dr
 -----
 
@@ -28,3 +33,15 @@ test dependencies, run:
 ```
 pip install -r tests/requirements.txt
 ```
+
+
+Contributing
+------------
+
+The test suite is built with [pytest](https://docs.pytest.org/) and the help of a 
+[custom pytest plugin](plugins/pytest_docker.py) which introduces the following behaviors:
+
+- all test module files MUST have a docker-compose yaml file with the same name (but for the `.yml` extension)
+- all docker compose files must define a service named `jenkins` ()which runs a container from the docker image to test)
+- when a test module is run, pytest use the docker compose file to start docker containers
+- when all tests from a test module are executed, docker compose stops and remove the containers that were created for that module

@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
-
-
-import attr
+import json
 import os
-import pytest
 import re
 import subprocess
 import time
 import timeit
+
+import attr
+import pytest
 
 
 def execute(command, success_codes=(0,)):
@@ -29,57 +29,72 @@ def execute(command, success_codes=(0,)):
     return output
 
 
-@pytest.fixture(scope='module')
-def docker_ip():
-    """Determine IP address for TCP connections to Docker containers."""
-
-    # When talking to the Docker daemon via a UNIX socket, route all TCP
-    # traffic to docker containers via the TCP loopback interface.
-    docker_host = os.environ.get('DOCKER_HOST', '').strip()
-    if not docker_host or docker_host.startswith('unix://'):
-        return '127.0.0.1'
-
-    match = re.match(r'^tcp://(.+?):\d+$', docker_host)
-    if not match:
-        raise ValueError(
-            'Invalid value for DOCKER_HOST: "%s".' % (docker_host,)
-        )
-    return match.group(1)
-
-
 @attr.s(frozen=True)
 class Services(object):
     """."""
-
+    _docker = attr.ib()
     _docker_compose = attr.ib()
     _services = attr.ib(init=False, default=attr.Factory(dict))
 
-    def port_for(self, service, port):
-        """Get the effective bind port for a service."""
+    def container_id(self, service):
+        """Get the container id of the first container for a service"""
 
         # Lookup in the cache.
-        cache = self._services.get(service, {}).get(port, None)
+        cache = self._services.get(service, {}).get('_id', None)
         if cache is not None:
             return cache
 
         output = self._docker_compose.execute(
-            'port %s %d' % (service, port,)
-        )
-        endpoint = output.strip()
-        if not endpoint:
+            'ps -q %s' % (service,)
+        ).strip()
+        match = re.match(r"""^(?P<id>[0-9a-f]+)$""", output)
+
+        if not match:
             raise ValueError(
-                'Could not detect port for "%s:%d".' % (service, port)
+                'Could not detect id for "%s".' % (service,)
             )
 
-        # Usually, the IP address here is 0.0.0.0, so we don't use it.
-        match = int(endpoint.split(':', 1)[1])
+        id = match.group('id')
 
         # Store it in cache in case we request it multiple times.
-        self._services.setdefault(service, {})[port] = match
+        self._services.setdefault(service, {})['_id'] = id
 
-        return match
+        return id
 
-    def wait_until_responsive(self, check, timeout, pause,
+    def ip_for(self, service):
+        """Get the effective ip for a service first containerr."""
+
+        # Lookup in the cache.
+        cache = self._services.get(service, {}).get('_ip', None)
+        if cache is not None:
+            return cache
+
+        container_id = self.container_id(service)
+
+        output = self._docker.execute(
+            'inspect %s' % (container_id,)
+        ).strip()
+        data = json.loads(output)
+        if not data:
+            raise ValueError(
+                'Could not detect ip for "%s".' % (service,)
+            )
+
+        net_info = data[0]["NetworkSettings"]["Networks"]
+        if "bridge" in net_info:
+            ip_address = net_info["bridge"]["IPAddress"]
+        else:
+            # not default bridge network, fallback on first network defined
+            network_name = list(net_info.keys())[0]
+            ip_address = net_info[network_name]["IPAddress"]
+
+        # Store it in cache in case we request it multiple times.
+        self._services.setdefault(service, {})['_ip'] = ip_address
+
+        return ip_address
+
+    @staticmethod
+    def wait_until_responsive(check, timeout, pause,
                               clock=timeit.default_timer):
         """Wait until a service is responsive."""
 
@@ -115,6 +130,14 @@ class DockerComposeExecutor(object):
         return execute(command)
 
 
+@attr.s(frozen=True)
+class DockerExecutor(object):
+
+    def execute(self, subcommand):
+        command = "docker {}".format(subcommand)
+        return execute(command)
+
+
 @pytest.fixture(scope='module')
 def docker_compose_file(request, pytestconfig):
     """Get the docker-compose.yml absolute path.
@@ -137,10 +160,10 @@ def docker_compose_project_name():
 
 @pytest.fixture(scope='module')
 def docker_services(
-    docker_compose_file, docker_compose_project_name
+        docker_compose_file, docker_compose_project_name
 ):
     """Ensure all Docker-based services are up and running."""
-
+    docker = DockerExecutor()
     docker_compose = DockerComposeExecutor(
         docker_compose_file, docker_compose_project_name
     )
@@ -149,7 +172,7 @@ def docker_services(
     docker_compose.execute('up --build -d')
 
     # Let test(s) run.
-    yield Services(docker_compose)
+    yield Services(docker, docker_compose)
 
     # Clean up.
     docker_compose.execute('down -v')
@@ -157,6 +180,5 @@ def docker_services(
 
 __all__ = (
     'docker_compose_file',
-    'docker_ip',
     'docker_services',
 )
