@@ -1,0 +1,24 @@
+version: "3.5"
+services:
+
+  svnserver:
+    build: fixtures/svn
+
+  jenkins:
+    image: ${IMAGE_NAME}
+    ports:
+      - 8080
+    depends_on:
+      - svnserver
+    environment:
+      SEEDJOB_SVN: svn://svnserver/repos
+
+  sut:
+    build:
+      context: lib
+      dockerfile: Dockerfile-test-runner
+    depends_on:
+      - jenkins
+    volumes:
+      - ./:/src
+    command: test_SEEDJOB_SVN.py

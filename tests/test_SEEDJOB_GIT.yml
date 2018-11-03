@@ -1,0 +1,24 @@
+version: "3.6"
+services:
+
+  gitserver:
+    build: fixtures/git
+
+  jenkins:
+    image: ${IMAGE_NAME}
+    ports:
+      - 8080
+    depends_on:
+      - gitserver
+    environment:
+      SEEDJOB_GIT: git://gitserver/data
+
+  sut:
+    build:
+      context: lib
+      dockerfile: Dockerfile-test-runner
+    depends_on:
+      - jenkins
+    volumes:
+      - ./:/src
+    command: test_SEEDJOB_GIT.py

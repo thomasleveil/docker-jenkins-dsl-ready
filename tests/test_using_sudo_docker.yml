@@ -1,0 +1,20 @@
+version: "3.5"
+services:
+
+  jenkins:
+    image: ${IMAGE_NAME}
+    ports:
+      - 8080
+    volumes:
+      - ./fixtures/using-sudo-docker/:/usr/share/jenkins/ref/jobs/SeedJob/workspace/:ro
+      - /var/run/docker.sock:/var/run/docker.sock
+    
+  sut:
+    build:
+      context: lib
+      dockerfile: Dockerfile-test-runner
+    depends_on:
+      - jenkins
+    volumes:
+      - ./:/src
+    command: test_using_sudo_docker.py

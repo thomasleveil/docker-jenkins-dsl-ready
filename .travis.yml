@@ -9,20 +9,10 @@ services:
 before_install:
   - docker version
   - docker info
-  - sudo add-apt-repository ppa:duggan/bats --yes
-  - sudo apt-get update -qq
-  - sudo apt-get install -qq bats
+  - pip install docker-compose
   - sudo service docker restart ; sleep 10
 
 script:
 - python -m doctest build/resolve_jenkins_plugins_dependencies.py
-- docker build -t tomdesinto/jenkins-dsl-ready:bats .
-- bats tests
-
-after_success:
-# notify Docker Hub to make a new build
-- >
-  [ "$TRAVIS_BRANCH" == "master" ]
-  && curl -X POST -H "Content-Type: application/json"
-  --data '{"docker_tag_name": "latest"}'
-  https://registry.hub.docker.com/u/tomdesinto/jenkins-dsl-ready/trigger/$DOCKER_HUB_TOKEN/
+- docker build -t tomdesinto/jenkins-dsl-ready:test .
+- IMAGE_NAME=tomdesinto/jenkins-dsl-ready:test tests/run_tests.sh
