@@ -1,3 +1,6 @@
+# Docker file used to build a Docker image having all dependencies required
+# to run the test suite.
+
 FROM docker:stable
 RUN apk --no-cache add git python python-pip 
 COPY ./tests/requirements.txt /

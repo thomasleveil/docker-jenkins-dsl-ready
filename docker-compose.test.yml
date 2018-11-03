@@ -1,3 +1,6 @@
+# Docker compose file helping with running the test suite
+# Meant to be run by Docker Cloud Autotest facility
+
 version: "3.5"
 services:
 
@@ -11,5 +14,5 @@ services:
     working_dir: /src
     privileged: true
     environment:
-      IMAGE_NAME=this
+      IMAGE_NAME: this
     command: pytest -v
