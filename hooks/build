@@ -1,6 +1,15 @@
 #!/bin/bash
 set -eu
 
+cat <<EOT
+===============================================================================
+
+hooks/build
+
+===============================================================================
+EOT
+
+
 # $IMAGE_NAME var is injected into the build so the tag is correct.
 
 echo "Build hook running"
