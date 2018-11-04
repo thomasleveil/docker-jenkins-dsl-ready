@@ -85,5 +85,5 @@ class JenkinsClient(requests.Session):
         assert 200 == r.status_code, r.status_code
         if r.json()['result'] == 'FAILURE':
             r = self.get("/job/%s/1/logText/progressiveText" % job)
-            pytest.fail("Job %s failed : \n\n%s\n\n" % (job, r.text))
+            pytest.fail("Job %s failed : \n\n%s\n\n" % (job, r.text), pytrace=False)
         assert 'SUCCESS' == r.json()['result']
