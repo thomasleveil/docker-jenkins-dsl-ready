@@ -28,14 +28,18 @@ def jenkins(requirements, docker_services: Services) -> JenkinsClient:
     if not jenkins_container_ip:
         docker_services._docker_compose.execute("ps")
         docker_services._docker_compose.execute("logs --timestamps --tail=500")
+        print(docker_services.inspect_service('jenkins'))
         pytest.fail("Cannot find any IP address for the jenkins container", pytrace=False)
 
-    jenkins_client = JenkinsClient(url_base="http://{ip}:8080".format(ip=jenkins_container_ip))
+    jenkins_url = "http://{ip}:8080".format(ip=jenkins_container_ip)
+    print("Jenkins url: %s" % jenkins_url)
+    jenkins_client = JenkinsClient(url_base=jenkins_url)
     try:
         jenkins_client.wait_for_jenkins_to_be_ready()
     except Timeout:
         docker_services._docker_compose.execute("ps")
         docker_services._docker_compose.execute("logs --timestamps --tail=500")
+        print(docker_services.inspect_service('jenkins'))
         raise
     return jenkins_client
 

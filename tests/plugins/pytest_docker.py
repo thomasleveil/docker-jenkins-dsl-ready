@@ -61,6 +61,22 @@ class Services(object):
 
         return id
 
+    def inspect_container(self, container_id):
+        output = self._docker.execute(
+            'inspect %s' % (container_id,), no_print=True
+        ).strip()
+        data = json.loads(output)
+        if not data:
+            raise ValueError(
+                'Could not inspect container %s' % (container_id,)
+            )
+        return data
+
+    def inspect_service(self, service):
+        container_id = self.container_id(service)
+        data = self.inspect_container(container_id)
+        return data
+
     def ip_for(self, service):
         """Get the effective ip for a service first containerr."""
 
@@ -69,17 +85,7 @@ class Services(object):
         if cache is not None:
             return cache
 
-        container_id = self.container_id(service)
-
-        output = self._docker.execute(
-            'inspect %s' % (container_id,), no_print=True
-        ).strip()
-        data = json.loads(output)
-        if not data:
-            raise ValueError(
-                'Could not detect ip for "%s".' % (service,)
-            )
-
+        data = self.inspect_service(service)
         net_info = data[0]["NetworkSettings"]["Networks"]
         if "bridge" in net_info:
             ip_address = net_info["bridge"]["IPAddress"]
