@@ -7,7 +7,7 @@ import time
 
 def wait_until(check, timeout, pause, clock=timeit.default_timer):
     """Wait until a check is True."""
-
+    __tracebackhide__ = True
     ref = clock()
     now = ref
     while (now - ref) < timeout:
