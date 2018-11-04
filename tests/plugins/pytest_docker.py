@@ -8,8 +8,9 @@ import attr
 import pytest
 
 
-def execute(command, success_codes=(0,)):
+def execute(command, success_codes=(0,), no_print=False):
     """Run a shell command."""
+    no_print or print("> %s" % command)
     try:
         output = subprocess.check_output(
             command, stderr=subprocess.STDOUT, shell=True,
@@ -20,6 +21,7 @@ def execute(command, success_codes=(0,)):
         status = error.returncode
         command = error.cmd
     output = output.decode('utf-8')
+    no_print or print(output)
     if status not in success_codes:
         raise Exception(
             'Command %r returned %d: """%s""".' % (command, status, output)
@@ -30,8 +32,8 @@ def execute(command, success_codes=(0,)):
 @attr.s(frozen=True)
 class Services(object):
     """."""
-    _docker = attr.ib()
-    _docker_compose = attr.ib()
+    _docker = attr.ib()  # type: DockerExecutor
+    _docker_compose = attr.ib()  # type: DockerComposeExecutor
     _services = attr.ib(init=False, default=attr.Factory(dict))
 
     def container_id(self, service):
@@ -43,7 +45,7 @@ class Services(object):
             return cache
 
         output = self._docker_compose.execute(
-            'ps -q %s' % (service,)
+            'ps -q %s' % (service,), no_print=True
         ).strip()
         match = re.match(r"""^(?P<id>[0-9a-f]+)$""", output)
 
@@ -70,7 +72,7 @@ class Services(object):
         container_id = self.container_id(service)
 
         output = self._docker.execute(
-            'inspect %s' % (container_id,)
+            'inspect %s' % (container_id,), no_print=True
         ).strip()
         data = json.loads(output)
         if not data:
@@ -86,8 +88,9 @@ class Services(object):
             network_name = list(net_info.keys())[0]
             ip_address = net_info[network_name]["IPAddress"]
 
-        # Store it in cache in case we request it multiple times.
-        self._services.setdefault(service, {})['_ip'] = ip_address
+        if ip_address:
+            # Store it in cache in case we request it multiple times.
+            self._services.setdefault(service, {})['_ip'] = ip_address
 
         return ip_address
 
@@ -104,25 +107,25 @@ class DockerComposeExecutor(object):
     _compose_files = attr.ib(convert=str_to_list)
     _compose_project_name = attr.ib()
 
-    def execute(self, subcommand):
+    def execute(self, subcommand, no_print=False):
         command = "docker-compose"
         for compose_file in self._compose_files:
             command += ' -f "{}"'.format(compose_file)
         command += ' --project-directory "{}" --project-name "{}" {}'.format(self._compose_dir,
                                                                              self._compose_project_name, subcommand)
-        return execute(command)
+        return execute(command, no_print=no_print)
 
 
 @attr.s(frozen=True)
 class DockerExecutor(object):
 
-    def execute(self, subcommand):
+    def execute(self, subcommand, no_print=False):
         command = "docker {}".format(subcommand)
-        return execute(command)
+        return execute(command, no_print=no_print)
 
 
 @pytest.fixture(scope='module')
-def docker_compose_file(request, pytestconfig):
+def docker_compose_file(request):
     """Get the docker-compose.yml absolute path.
 
     Override this fixture in your tests if you need a custom location.
@@ -144,7 +147,7 @@ def docker_compose_project_name(request):
 @pytest.fixture(scope='module')
 def docker_services(
         request, docker_compose_file, docker_compose_project_name
-):
+) -> Services:
     """Ensure all Docker-based services are up and running."""
     test_module_dir = os.path.dirname(request.module.__file__)
 

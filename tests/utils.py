@@ -16,7 +16,7 @@ def wait_until(check, timeout, pause, clock=timeit.default_timer):
         time.sleep(pause)
         now = clock()
 
-    raise Exception(
+    raise Timeout(
         'Timeout reached while waiting'
     )
 
