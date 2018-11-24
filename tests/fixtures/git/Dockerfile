@@ -1,4 +1,4 @@
-FROM alpine/git
+FROM alpine/git:1.0.4
 RUN apk --no-cache add git-daemon
 COPY ./data /data
 
