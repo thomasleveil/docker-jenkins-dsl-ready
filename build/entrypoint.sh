@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# update plugins
-/opt/bin/update_jenkins_plugins.py
-
 # do not nag with Jenkins setup wizard
 export JAVA_OPTS="${JAVA_OPTS} -Djenkins.install.runSetupWizard=false" 
 
