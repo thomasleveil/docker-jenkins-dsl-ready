@@ -14,5 +14,5 @@ before_install:
 
 script:
 - python -m doctest build/resolve_jenkins_plugins_dependencies.py
-- docker build -t tomdesinto/jenkins-dsl-ready:test .
+- docker build --pull -t tomdesinto/jenkins-dsl-ready:test .
 - IMAGE_NAME=tomdesinto/jenkins-dsl-ready:test tests/run_tests.sh
