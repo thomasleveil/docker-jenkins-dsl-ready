@@ -13,8 +13,10 @@ BUILD
 
 EOT
 
+docker pull tomdesinto/jenkins-dsl-ready:latest || true
 docker build \
   --pull \
+  --cache-from=tomdesinto/jenkins-dsl-ready:latest \
   --build-arg BUILD_DATE=`date -u +"%Y-%m-%dT%H:%M:%SZ"` \
   --build-arg VCS_REF=`git rev-parse --short HEAD` \
   -t $IMAGE_NAME .

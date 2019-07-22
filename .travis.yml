@@ -13,5 +13,6 @@ before_install:
   - sudo service docker restart ; sleep 10
 
 script:
-- docker build --pull -t tomdesinto/jenkins-dsl-ready:test .
+- docker pull tomdesinto/jenkins-dsl-ready:latest || true
+- docker build --pull --cache-from=tomdesinto/jenkins-dsl-ready:latest -t tomdesinto/jenkins-dsl-ready:test .
 - IMAGE_NAME=tomdesinto/jenkins-dsl-ready:test tests/run_tests.sh
