@@ -146,7 +146,12 @@ will be owned by _root_. Jenkins would then be unable to manage then (wipe works
 
 Using the official [docker:dind][dind] image, you can start a container which runs another _child_ Docker engine which will be available to your jenkins-dsl-ready container through links. Be aware of constraints and pitfalls that comes with such a setup. Make sure to read [Using Docker-in-Docker for your CI or testing environment? Think twice](https://jpetazzo.github.io/2015/09/03/do-not-use-docker-in-docker-for-ci/) from Jérôme Petazzoni.
 
-    docker run -d --privileged --name dind docker:1.8-dind
+    docker run -d --name dind \
+        --privileged \
+        -e DOCKER_DRIVER=overlay2 \
+        -e DOCKER_TLS_CERTDIR='' \
+        -e DOCKER_HOST=tcp://docker-daemon:2375 \
+        docker:19.03-dind
 
 **note:** use the tag that matches your docker version. i.e.: `docker:1.8-dind` if you have docker `v1.8.1` or `v1.8.2`. `docker:1.7-dind` if you have docker `v1.7.x`, and so on. See available tags at https://hub.docker.com/r/library/docker/tags/
 
