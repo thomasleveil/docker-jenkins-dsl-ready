@@ -1,4 +1,4 @@
-FROM jenkins/jenkins:lts
+FROM jenkins/jenkins:jdk11
 
 USER root
 
@@ -48,6 +48,10 @@ LABEL org.label-schema.name="Jenkins DSL ready" \
 	org.label-schema.schema-version="1.0.0-rc1"
 COPY ./README.md /
 
+
+## Add latest jenkins
+# ADD https://updates.jenkins.io/latest/jenkins.war /usr/share/jenkins/jenkins.war
+# RUN chmod 644 /usr/share/jenkins/jenkins.war
 
 ###############################################################################
 ##                          customize below                                  ##

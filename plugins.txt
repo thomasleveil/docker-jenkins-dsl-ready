@@ -18,6 +18,6 @@ publish-over-ssh
 rebuild
 sidebar-link
 subversion
-warnings
+warnings-ng
 workflow-aggregator
 ws-cleanup
