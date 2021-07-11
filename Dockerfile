@@ -49,6 +49,9 @@ LABEL org.label-schema.name="Jenkins DSL ready" \
 COPY ./README.md /
 
 
+## Add latest jenkins
+ADD https://updates.jenkins.io/latest/jenkins.war /usr/share/jenkins/jenkins.war
+
 ###############################################################################
 ##                          customize below                                  ##
 ###############################################################################
