@@ -63,7 +63,7 @@ Included plugins
 - [Gradle][gradle]
 - [Parameterized  Trigger][parameterized-trigger]
 - [Publish Over Ssh][publish-over-ssh]
-- [Warnings][warnings]
+- [Warnings Next Generation][warnings-ng]
 - [Workspace Cleanup][ws-cleanup]
 
 
@@ -249,6 +249,6 @@ Your jobs might depend on software which is not available in this image. You can
 [rebuild]: https://plugins.jenkins.io/rebuild
 [sidebar-link]: https://plugins.jenkins.io/sidebar-link
 [subversion]: https://plugins.jenkins.io/subversion
-[warnings]:  https://plugins.jenkins.io/warnings
+[warnings-ng]:  https://plugins.jenkins.io/warnings-ng/
 [workflow-aggregator]: https://plugins.jenkins.io/workflow-aggregator
 [ws-cleanup]: https://plugins.jenkins.io/ws-cleanup
