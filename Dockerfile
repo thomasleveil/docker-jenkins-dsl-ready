@@ -51,6 +51,7 @@ COPY ./README.md /
 
 ## Add latest jenkins
 ADD https://updates.jenkins.io/latest/jenkins.war /usr/share/jenkins/jenkins.war
+RUN chmod 644 /usr/share/jenkins/jenkins.war
 
 ###############################################################################
 ##                          customize below                                  ##
